@@ -431,8 +431,31 @@ def persistence(browser_type, temp, folder, url, disconnect):
     btn(pg,'#resumeSave button:first-child')
     assert pg.locator('#resultbox h1').is_visible() and 'active' not in state(pg)
     assert len(state(pg)['history'])==len(offline_answer['history'])+1
-    ctx.close();sw.write_text(original); html.write_text(html0)
+    final_progress=state(pg)
     good('JSON download and file restore, visible copyable backup, v3 text import, rejected malformed backup, resumed timer expires and records exactly one result')
+
+    # Exercise the archive independently of Cache Storage, then close the
+    # whole browser before its very first request with the origin stopped.
+    await_cache_deletion = """async () => {
+      for (const name of await caches.keys()) {
+        if (name.startsWith('examen-civique-cr:')) await caches.delete(name);
+      }
+    }"""
+    pg.evaluate(await_cache_deletion)
+    with disconnect(ctx):
+        pg.reload();ready(pg);warm(pg)
+        assert state(pg)==final_progress
+    good('Offline shell and progress recovered from the separate archive after losing Cache Storage')
+    ctx.close()
+    ctx=launch()
+    with disconnect(ctx):
+        pg=ctx.new_page()
+        setup(pg,url);warm(pg)
+        assert state(pg)==final_progress
+        nav(pg,'bank');assert pg.locator('.bankrow').count()==15
+    ctx.close()
+    sw.write_text(original); html.write_text(html0)
+    good('First launch after full browser shutdown with origin already stopped, updated shell and identical saved progress')
 
 
 def fallback_checks(browser, url):

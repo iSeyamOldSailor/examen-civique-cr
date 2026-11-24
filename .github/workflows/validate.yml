@@ -9,7 +9,7 @@ permissions:
 jobs:
   browser:
     name: Browser tests (${{ matrix.engine }})
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     strategy:
       fail-fast: false

@@ -8,6 +8,7 @@ import shutil
 import sys
 import tempfile
 import threading
+import time
 from collections import Counter
 from contextlib import contextmanager
 from pathlib import Path
@@ -48,6 +49,7 @@ def site(temp):
     for path in ROOT.iterdir():
         if path.name.startswith('.'): continue
         if path.is_file(): shutil.copy(path, folder / path.name)
+    (folder.parent/'qa-observer.html').write_text('<!doctype html><title>Service worker lifecycle observer</title>')
     server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Handler, directory=folder.parent))
     threading.Thread(target=server.serve_forever, daemon=True).start()
     try: yield folder, f'http://127.0.0.1:{server.server_port}{SCOPE}'
@@ -67,8 +69,18 @@ def ready(pg):
     pg.locator('main:not([inert])').wait_for()
 
 
+def poll(pg, expression, timeout=10000):
+    # Playwright's wait_for_function uses string evaluation, which WebKit correctly
+    # rejects under the production CSP. Poll through the debugging protocol instead.
+    deadline = time.monotonic() + timeout / 1000
+    while time.monotonic() < deadline:
+        if pg.evaluate(expression): return
+        time.sleep(0.10)
+    raise AssertionError('Timed out observing ' + expression)
+
+
 def warm(pg):
-    pg.wait_for_function("navigator.serviceWorker.controller && document.querySelector('[data-offline-status]').textContent.includes('Prêt hors connexion')",
+    poll(pg, "navigator.serviceWorker.controller && document.querySelector('[data-offline-status]').textContent.includes('Prêt hors connexion')",
                          timeout=15000)
 
 
@@ -340,14 +352,25 @@ def persistence(browser_type, temp, folder, url):
     html.write_text(html0.replace('<title>','<meta name="qa-release" content="next"><title>',1))
     sw.write_text(original.replace("const RELEASE = '","const RELEASE = 'qa-update-",1))
     pg.evaluate("async()=>{const r=await navigator.serviceWorker.ready; await r.update();}")
-    pg.wait_for_function("()=>navigator.serviceWorker.getRegistration().then(r=>Boolean(r.waiting))",timeout=25000)
+    poll(pg, "()=>navigator.serviceWorker.getRegistration().then(r=>Boolean(r.waiting))",timeout=25000)
     assert pg.locator('meta[name=qa-release]').count()==0 and state(pg)==offline_answer
+    # An out-of-scope same-origin tab can observe activation without keeping an
+    # old controlled client open. Cache creation alone only proves installation.
+    observer=ctx.new_page()
+    observer.goto(url+'../qa-observer.html')
+    for window in ctx.pages:
+        if window != observer: window.close()
+    poll(observer, """async () => {
+      const r=await navigator.serviceWorker.getRegistration('/examen-civique-cr/');
+      const names=(await caches.keys()).filter(n=>n.startsWith('examen-civique-cr:'));
+      return r?.active?.state==='activated' && !r.waiting && !r.installing &&
+        names.length===1 && names[0].includes('qa-update-');
+    }""",timeout=25000)
     ctx.close()
     ctx=launch(); pg=ctx.new_page()
     setup(pg,url)
-    pg.wait_for_function("()=>caches.keys().then(ns=>ns.some(n=>n.includes('qa-update-')))",timeout=15000)
-    pg.reload(wait_until='load');ready(pg)
-    assert pg.locator('meta[name=qa-release]').count()==1 and state(pg)==offline_answer
+    assert pg.locator('meta[name=qa-release]').count()==1, 'Restart did not receive updated HTML'
+    assert state(pg)==offline_answer, 'Saved exam differs after update'
     ctx.set_offline(True);pg.reload(wait_until='load');ready(pg)
     assert pg.locator('meta[name=qa-release]').count()==1 and state(pg)==offline_answer
     ctx.set_offline(False)
@@ -370,7 +393,7 @@ def persistence(browser_type, temp, folder, url):
     btn(pg,'#saveview button[onclick^="restoreText"]')
     assert state(pg)==legacy['progress']
     pg.locator('#backupFile').set_input_files(str(disk))
-    pg.wait_for_function("document.querySelector('#resumeSave button') !== null")
+    poll(pg, "document.querySelector('#resumeSave button') !== null")
     assert state(pg)==offline_answer
     btn(pg,'#resumeSave button:first-child')
     assert active(pg)==offline_answer['active']
@@ -450,9 +473,9 @@ def two_tabs(browser, url):
     a=ctx.new_page();setup(a,url)
     b=ctx.new_page();setup(b,url)
     a.locator('#daylist input').first.check()
-    b.wait_for_function("saved.done.includes(0)")
+    poll(b, "saved.done.includes(0)")
     b.locator('#daylist input').nth(1).check()
-    a.wait_for_function("saved.done.includes(1)")
+    poll(a, "saved.done.includes(1)")
     b.close()
     a.reload();ready(a)
     assert state(a)['done']==[0,1]

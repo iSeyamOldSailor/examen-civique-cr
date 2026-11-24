@@ -5,6 +5,7 @@ import http.server
 import json
 import re
 import shutil
+import socket
 import sys
 import tempfile
 import threading
@@ -50,9 +51,32 @@ def site(temp):
         if path.name.startswith('.'): continue
         if path.is_file(): shutil.copy(path, folder / path.name)
     (folder.parent/'qa-observer.html').write_text('<!doctype html><title>Service worker lifecycle observer</title>')
-    server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Handler, directory=folder.parent))
-    threading.Thread(target=server.serve_forever, daemon=True).start()
-    try: yield folder, f'http://127.0.0.1:{server.server_port}{SCOPE}'
+    def start(port):
+        handler = functools.partial(Handler, directory=folder.parent)
+        server = http.server.ThreadingHTTPServer(('127.0.0.1', port), handler)
+        threading.Thread(target=server.serve_forever, args=(0.05,), daemon=True).start()
+        return server
+
+    server = start(0)
+    port = server.server_port
+
+    @contextmanager
+    def disconnect(ctx):
+        # A stopped origin works across engines, including WebKit where the
+        # browser automation's offline flag can abort navigations before the worker.
+        nonlocal server
+        server.shutdown()
+        server.server_close()
+        try:
+            with socket.socket() as probe:
+                assert probe.connect_ex(('127.0.0.1', port)) != 0, 'Origin still reachable'
+            if ENGINE == 'chromium': ctx.set_offline(True)
+            yield
+        finally:
+            server = start(port)
+            if ENGINE == 'chromium': ctx.set_offline(False)
+
+    try: yield folder, f'http://127.0.0.1:{port}{SCOPE}', disconnect
     finally: server.shutdown(); server.server_close()
 
 
@@ -287,7 +311,7 @@ def timing_and_scores(pg, qmap):
     good('Scoring threshold 31/40 and 32/40, incorrect/unanswered worth zero, delayed mock correction, 40 reviews, repeat mock, mistake revision and historical corrections')
 
 
-def persistence(browser_type, temp, folder, url):
+def persistence(browser_type, temp, folder, url, disconnect):
     profile = temp/'profile'
     opts = {'viewport':{'width':390,'height':844},'is_mobile':True,'has_touch':True}
     def launch(): return browser_type.launch_persistent_context(str(profile), **opts)
@@ -329,21 +353,22 @@ def persistence(browser_type, temp, folder, url):
     btn(pg,'#quizbox .qfooter .primary')
     assert active(pg)==before['active']
     warm(pg)
-    ctx.set_offline(True)
-    pg.reload(wait_until='load')
-    ready(pg)
-    assert state(pg)==before
-    assert pg.locator('#quizbox .question').is_visible()
-    pg.locator('#quizbox .opt').nth(1).click()
-    offline_answer=state(pg)
-    assert len(offline_answer['active']['answers'])==3
-    p2=ctx.new_page()
-    setup(p2,url+'?offline-launch');assert state(p2)==offline_answer
-    nav(p2,'lessons'); assert p2.locator('#lesson-day-3 input').is_checked()
-    nav(p2,'bank'); assert p2.locator('.bankrow').count()==15
-    nav(p2,'sources');assert p2.locator('#sourceslist a').count()==6
-    p2.close();ctx.set_offline(False)
-    good('Full persistent browser close/relaunch, identical quiz order, answers, position, start time, lesson and history; offline reload, cold-tab launch and answer saving')
+    good('Full persistent browser close/relaunch, identical quiz order, answers, position, start time, lesson and history')
+    with disconnect(ctx):
+        pg.reload(wait_until='load')
+        ready(pg)
+        assert state(pg)==before
+        assert pg.locator('#quizbox .question').is_visible()
+        pg.locator('#quizbox .opt').nth(1).click()
+        offline_answer=state(pg)
+        assert len(offline_answer['active']['answers'])==3
+        p2=ctx.new_page()
+        setup(p2,url+'?offline-launch');assert state(p2)==offline_answer
+        nav(p2,'lessons'); assert p2.locator('#lesson-day-3 input').is_checked()
+        nav(p2,'bank'); assert p2.locator('.bankrow').count()==15
+        nav(p2,'sources');assert p2.locator('#sourceslist a').count()==6
+        p2.close()
+    good('Stopped HTTP origin: offline reload, cold-tab launch, lesson, bank, sources and answer saving')
     # Update a separate temporary copy of the published shell under exactly the same origin.
     sw=folder/'sw.js'
     original=sw.read_text()
@@ -371,9 +396,10 @@ def persistence(browser_type, temp, folder, url):
     setup(pg,url)
     assert pg.locator('meta[name=qa-release]').count()==1, 'Restart did not receive updated HTML'
     assert state(pg)==offline_answer, 'Saved exam differs after update'
-    ctx.set_offline(True);pg.reload(wait_until='load');ready(pg)
-    assert pg.locator('meta[name=qa-release]').count()==1 and state(pg)==offline_answer
-    ctx.set_offline(False)
+    warm(pg)
+    with disconnect(ctx):
+        pg.reload(wait_until='load');ready(pg)
+        assert pg.locator('meta[name=qa-release]').count()==1 and state(pg)==offline_answer
     good('Real service-worker update staged while an exam was open, new shell activated after close, identical progress and correct offline release')
     nav(pg,'saveview')
     with pg.expect_download() as dl:
@@ -486,7 +512,7 @@ def two_tabs(browser, url):
 def main():
     with tempfile.TemporaryDirectory() as directory, sync_playwright() as pw:
         temp=Path(directory)
-        with site(temp) as (folder,url):
+        with site(temp) as (folder,url,disconnect):
             engine=getattr(pw,ENGINE)
             browser=engine.launch()
             print('TEST ENGINE',ENGINE,browser.version,flush=True)
@@ -507,7 +533,7 @@ def main():
             fallback_checks(browser,url)
             two_tabs(browser,url)
             browser.close()
-            persistence(engine,temp,folder,url)
+            persistence(engine,temp,folder,url,disconnect)
             assert not errors,str(errors[:5])
             good('Entire browser run completed without unhandled page errors')
             print('VALIDATION COMPLETE',ENGINE,len(SUCCESS),'groups',flush=True)

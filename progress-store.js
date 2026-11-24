@@ -4,7 +4,7 @@
 function createProgressStore(localKey, decode, onPeerChange, onStatus) {
   const databaseName = 'examen-civique-cr';
   const table = 'progress';
-  const key = 'current';
+  const legacyKey = 'current';
   const writer = Math.random().toString(36).slice(2);
   let database = null;
   let channel = null;
@@ -69,8 +69,14 @@ function createProgressStore(localKey, decode, onPeerChange, onStatus) {
       if (!database) { resolve(null); return; }
       try {
         const tx = database.transaction(table, 'readonly');
-        const request = tx.objectStore(table).get(key);
-        tx.oncomplete = () => resolve(unpack(request.result));
+        const store = tx.objectStore(table);
+        const newest = store.openCursor(IDBKeyRange.lowerBound([0]), 'prev');
+        const legacy = store.get(legacyKey);
+        tx.oncomplete = () => {
+          const record = unpack(newest.result?.value);
+          const previous = unpack(legacy.result);
+          resolve(newer(previous, record) ? previous : record);
+        };
         tx.onerror = tx.onabort = () => resolve(null);
       } catch { resolve(null); }
     });
@@ -88,21 +94,16 @@ function createProgressStore(localKey, decode, onPeerChange, onStatus) {
     try {
       const tx = database.transaction(table, 'readwrite');
       const store = tx.objectStore(table);
-      const request = store.get(key);
-      let winner;
-      request.onsuccess = () => {
-        winner = unpack(request.result);
-        if (!newer(winner, record)) {
-          winner = null;
-          store.put(flat, key);
-        }
-      };
+      // Queue all writes before the tab can close. Out-of-order arrivals cannot
+      // remove a newer revision, and readers always select the highest key.
+      store.put(flat, record.version);
+      store.delete(IDBKeyRange.bound([0], record.version, false, true));
       tx.oncomplete = () => {
         databaseOK = true;
-        if (winner) adopt(winner, true);
-        else if (channel) channel.postMessage(record.version);
+        if (channel) channel.postMessage(record.version);
         notify();
       };
+      if (typeof tx.commit === 'function') tx.commit();
       tx.onerror = tx.onabort = () => { databaseOK = false; notify(); };
     } catch { databaseOK = false; notify(); }
   }

@@ -1,7 +1,7 @@
 'use strict';
 
 // Change the release when publishing any app-shell change. Keep the storage keys stable.
-const RELEASE = '2026-11-24.1';
+const RELEASE = '2026-11-24.2';
 const ROOT = new URL(self.registration.scope);
 const PREFIX = 'examen-civique-cr:' + ROOT.pathname + ':';
 const CACHE = PREFIX + RELEASE;

@@ -6,11 +6,17 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: civic-pwa-qa-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   browser:
     name: Browser tests (${{ matrix.engine }})
     runs-on: ubuntu-24.04
-    timeout-minutes: 12
+    container:
+      image: mcr.microsoft.com/playwright/python:v1.58.0-noble
+      options: --ipc=host
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -23,6 +29,5 @@ jobs:
         run: |
           python -m venv "$RUNNER_TEMP/civic-qa"
           "$RUNNER_TEMP/civic-qa/bin/pip" install --disable-pip-version-check 'playwright==1.58.0'
-          "$RUNNER_TEMP/civic-qa/bin/python" -m playwright install --with-deps ${{ matrix.engine }}
       - name: Test the release in an isolated profile
         run: '"$RUNNER_TEMP/civic-qa/bin/python" .github/qa/validate.py ${{ matrix.engine }}'

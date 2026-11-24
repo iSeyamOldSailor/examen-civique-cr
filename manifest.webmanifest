@@ -1,0 +1,17 @@
+{
+  "id": "./",
+  "name": "Examen civique CR",
+  "short_name": "Civique CR",
+  "description": "Préparation à l’examen civique pour la carte de résident.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#edf5f4",
+  "theme_color": "#10333e",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,28 @@
+name: Validate civic exam PWA
+on:
+  push:
+    branches: [main]
+    paths: ['index.html', '*.js', '*.webmanifest', '*.png', '.github/qa/**', '.github/workflows/validate.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    name: Browser tests (${{ matrix.engine }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install browser test tools
+        run: |
+          python -m venv "$RUNNER_TEMP/civic-qa"
+          "$RUNNER_TEMP/civic-qa/bin/pip" install --disable-pip-version-check 'playwright==1.58.0'
+          "$RUNNER_TEMP/civic-qa/bin/python" -m playwright install --with-deps ${{ matrix.engine }}
+      - name: Test the release in an isolated profile
+        run: '"$RUNNER_TEMP/civic-qa/bin/python" .github/qa/validate.py ${{ matrix.engine }}'

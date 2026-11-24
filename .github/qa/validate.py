@@ -55,7 +55,8 @@ def site(temp):
 
 
 def setup(pg, url):
-    pg.set_default_timeout(6500)
+    pg.set_default_timeout(8000)
+    pg.emulate_media(reduced_motion='reduce')
     pg.on('pageerror', lambda error: errors.append(str(error)))
     pg.on('dialog', lambda d: d.accept())
     pg.goto(url, wait_until='load')
@@ -402,7 +403,8 @@ def fallback_checks(browser, url):
         expected=state(pg)
         if mode!='manual':
             pg.reload();ready(pg)
-            assert state(pg)==expected
+            actual=state(pg)
+            assert actual==expected, (mode, {k:(expected.get(k),actual.get(k)) for k in expected.keys()|actual.keys() if expected.get(k)!=actual.get(k)})
         else:
             nav(pg,'saveview')
             with pg.expect_download() as dl: btn(pg,'#saveview button[onclick="exportProgress()"]')

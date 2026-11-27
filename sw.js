@@ -1,13 +1,14 @@
 'use strict';
 
 // Change the release for every app-shell update. Progress uses a separate database.
-const RELEASE = '2026-11-24.3';
+const RELEASE = '2026-11-27.1';
 const ROOT = new URL(self.registration.scope);
 const PREFIX = 'examen-civique-cr:' + ROOT.pathname + ':';
 const CACHE = PREFIX + RELEASE;
 const SHELL = new URL('index.html', ROOT).href;
 const ASSETS = [
-  'index.html', 'progress-store.js', 'pwa.js', 'manifest.webmanifest',
+  'index.html', 'revision.js', 'revision-2026-11-27.json', 'cahier-revision-2026-11-27.pdf',
+  'progress-store.js', 'pwa.js', 'manifest.webmanifest',
   'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'maskable-512.png'
 ].map(path => new URL(path, ROOT).href);
 

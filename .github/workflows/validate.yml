@@ -2,7 +2,9 @@ name: Validate civic exam PWA
 on:
   push:
     branches: [main]
-    paths: ['index.html', '*.js', '*.webmanifest', '*.png', '.github/qa/**', '.github/workflows/validate.yml']
+    paths: ['index.html', '*.js', '*.json', '*.pdf', '*.webmanifest', '*.png', '.github/qa/**', '.github/workflows/validate.yml']
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -24,6 +26,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          persist-credentials: false
+      - name: Get the published v3 release for upgrade testing
+        uses: actions/checkout@v4
+        with:
+          ref: 2a07dc78b3eb8261d7be94564aab9eb0a80e3d65
+          path: .prior-v3
           persist-credentials: false
       - name: Install browser test tools
         run: python -m pip install --disable-pip-version-check --target "$RUNNER_TEMP/civic-qa" 'playwright==1.58.0'

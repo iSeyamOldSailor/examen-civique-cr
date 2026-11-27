@@ -1,0 +1,1681 @@
+{
+  "schema": "examen-civique-cr.supplement",
+  "versionSchema": 1,
+  "version": "2026-11-27.1",
+  "lang": "fr-FR",
+  "mention": "CR",
+  "titre": "Révision complémentaire • Carte de résident",
+  "dateVeille": "2026-11-27",
+  "resume": {
+    "variantesConnaissance": 12,
+    "misesEnSituation": 12,
+    "astuces": 8,
+    "nouveauxEnoncesMinisteriels": 0,
+    "partageSituations": {
+      "V.situation": 6,
+      "D.situation": 6
+    }
+  },
+  "comparaison": {
+    "depot": "https://github.com/iSeyamOldSailor/examen-civique-cr",
+    "fichier": "index.html",
+    "gitBlob": "e74edbf8e8e0b184474082aa57b42afda97dae5f",
+    "banqueAvant": {
+      "connaissances": 209,
+      "situations": 32,
+      "lecons": 12
+    },
+    "sourceMinisterielle": "LISTE",
+    "intitulesDansLaListeConsultee": 209,
+    "matchesApresNormalisation": 208,
+    "normalisation": "Comparaison des intitulés sans accents, espaces, casse ni ponctuation. Un rapprochement a ensuite été fait à la lecture.",
+    "ecartDeTexte": {
+      "id": "K056",
+      "plateforme": "Quel est le rôle principal du Premier ministre ?",
+      "ministere": "Quel est le rôle du Premier ministre ?",
+      "type": "même question avec le mot « principal » en plus dans la v3"
+    },
+    "conclusion": "Les 209 sujets de connaissance publiés sont représentés. Les nouvelles entrées de ce lot sont des exercices complémentaires.",
+    "doublons": "Contrôle des intitulés normalisés contre les 241 entrées. Les liens et la colonne apport documentent les recoupements thématiques après relecture."
+  },
+  "integration": {
+    "destination": "Mode distinct « Révision complémentaire » ; banque et quotas existants conservés.",
+    "identifiants": "Identifiants stables préfixés RCR-20261127-. a est l’index de la bonne réponse, de 0 à 3, dans o. Conserver cet ordre dans les données et l’identifiant dans les sauvegardes. K signifie ici variante de connaissance ; M signifie simulation.",
+    "donnees": "Ce fichier est un catalogue pédagogique. Le menu Sauvegarde de la v3 lit uniquement la progression personnelle. Pour intégrer ce lot, le charger comme ressource statique du site.",
+    "selection": "Conserver C.questions comme source de renderBank(), beginOfficial(), des leçons et de startMock(). Ce dernier choisit par sub sans filtrer la provenance. Une fusion brute fausserait le badge ministériel et le tirage. Utiliser ici un réservoir de révision dédié.",
+    "moteur": "Le tableau questions contient les objets de QCM. Réutiliser startQuiz(items, libellé, false, false) pour les séances complémentaires. Ajouter leurs ID au QUESTION_MAP avant la restauration au démarrage. Pour réviser les erreurs du supplément, étendre la résolution dans reviewMissed() à ce registre.",
+    "attribution": "Dans sourceHtml(), traiter explicitement revision_editoriale et les simulations de ce lot. Afficher le libellé éditorial sous la question et son éventuelle observation datée avec la mention déclarée. Sous la correction, rendre les liens preuves et repereProgramme. La branche temoignage actuelle pointe vers un récit unique sur un restaurant.",
+    "horsLigne": "À la publication ultérieure, ajouter le JSON aux fichiers précachés de sw.js et augmenter RELEASE. Conserver les clés de progression existantes. Générer un examen blanc de contrôle avec 28 questions officielles et 12 situations, dont 6 par famille.",
+    "verification": "Vérifier avant publication la reprise d’un questionnaire du supplément, le maintien de la banque de 209 et des 16 quotas historiques, et la lecture des nouvelles sources hors ligne sous forme de synthèse. Les sites sources eux-mêmes nécessitent une connexion."
+  },
+  "observationsPubliques": [
+    {
+      "id": "CR-MARS",
+      "sourceId": "RCR",
+      "datePublication": "2026-03-28",
+      "mentionDeclaree": "CR",
+      "nature": "témoignage direct déclaré",
+      "observation": "Un candidat qui précise avoir passé la mention CR cite le sexisme au travail et les manifestations religieuses. Il conseille de revoir les définitions républicaines et donne Rodin et de Gaulle comme repères de révision.",
+      "limite": "Le commentaire décrit des thèmes et donne des exemples de révision. Il ne fournit ni questionnaire authentifié ni fréquence fiable."
+    },
+    {
+      "id": "CSP-TOULOUSE",
+      "sourceId": "RTLS",
+      "datePublication": "2026-01-09",
+      "mentionDeclaree": "CSP",
+      "nature": "témoignage direct déclaré",
+      "observation": "Le récit décrit un conflit de bruit entre voisins et mentionne les mandats, la Libération de Paris, les ports et le chef-lieu de la Bretagne.",
+      "limite": "Retour sur la carte pluriannuelle. Le message suggère plusieurs réponses possibles. La règle nationale est une seule bonne réponse par question."
+    },
+    {
+      "id": "NOV-VOCAB",
+      "sourceId": "RNOV",
+      "datePublication": "2026-11-24",
+      "mentionDeclaree": "non précisée",
+      "nature": "commentaire de candidat",
+      "observation": "Une personne dit avoir éliminé deux choix malgré un mot inconnu dans un énoncé. D’autres commentaires discutent de thèmes de niveaux différents.",
+      "limite": "Le niveau de la personne qui décrit cette méthode est inconnu. L’exemple sert uniquement à travailler la lecture."
+    },
+    {
+      "id": "NOV-CHIFFRES",
+      "sourceId": "RCHIFFRES",
+      "datePublication": "2026-11-14",
+      "mentionDeclaree": "plusieurs mentions",
+      "nature": "fiche communautaire",
+      "observation": "L’auteur d’une fiche propose de comparer les chiffres susceptibles d’être confondus, notamment des durées de mandat.",
+      "limite": "Publication d’un créateur de ressource. Ses estimations sur les distracteurs et leur fréquence ne servent pas de données d’examen."
+    },
+    {
+      "id": "NAT-ERREURS",
+      "sourceId": "RNAT",
+      "datePublication": "2026-03-25",
+      "mentionDeclaree": "naturalisation",
+      "nature": "témoignage direct déclaré",
+      "observation": "La personne explique avoir noté les questions manquées et les avoir retravaillées à part.",
+      "limite": "Seule la méthode est retenue. Les affirmations relatives au centre ou aux sites payants ne sont pas généralisées."
+    },
+    {
+      "id": "CSP-REPORTAGE",
+      "sourceId": "PRESSE",
+      "datePublication": "2025-12-25",
+      "mentionDeclaree": "CSP",
+      "nature": "entretien rapporté dans la presse",
+      "observation": "Une candidate à la carte pluriannuelle se souvient de thèmes concernant un enfant qui ne parle pas français, l’éducation sans violence et la religion en contexte professionnel.",
+      "limite": "Son souvenir de la conversation entre collègues est imprécis. Aucun corrigé n’en est déduit. Les cas du supplément sont réécrits avec un contexte explicite."
+    },
+    {
+      "id": "NOV-INSTIT",
+      "sourceId": "RNOV",
+      "datePublication": "2026-11-24",
+      "mentionDeclaree": "naturalisation",
+      "nature": "commentaire de candidat",
+      "observation": "Dans un commentaire distinguant deux examens, la personne attribue le rôle des communes et départements à sa session de nationalité.",
+      "limite": "Ce détail concerne la naturalisation. La compétence étudiée dans la variante CR est vérifiée indépendamment."
+    }
+  ],
+  "sources": {
+    "LISTE": {
+      "organisme": "Ministère de l’Intérieur",
+      "titre": "Liste officielle des questions de connaissance • mention CR",
+      "url": "https://formation-civique.interieur.gouv.fr/examen-civique/liste-officielle-des-questions-de-connaissance-cr/",
+      "type": "source_institutionnelle"
+    },
+    "FORMAT": {
+      "organisme": "Ministère de l’Intérieur",
+      "titre": "Format et durée de l’examen civique",
+      "url": "https://formation-civique.interieur.gouv.fr/examen-civique/informations-g%C3%A9n%C3%A9rales-sur-lexamen-civique/",
+      "type": "source_institutionnelle"
+    },
+    "QUOTAS": {
+      "organisme": "Légifrance",
+      "titre": "Arrêté du 10 octobre 2025, article 3 • répartition",
+      "url": "https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000052382287",
+      "type": "source_institutionnelle"
+    },
+    "CONST": {
+      "organisme": "Conseil constitutionnel",
+      "titre": "Constitution du 4 octobre 1958 • article 2",
+      "url": "https://qpc360.conseil-constitutionnel.fr/constitution-4-octobre-1958",
+      "type": "source_institutionnelle"
+    },
+    "COQ": {
+      "organisme": "Élysée",
+      "titre": "Le coq, symbole historique",
+      "url": "https://www.elysee.fr/la-presidence/le-coq",
+      "type": "source_institutionnelle"
+    },
+    "DEC": {
+      "organisme": "Éduscol",
+      "titre": "La loi du 9 décembre 1905",
+      "url": "https://eduscol.education.gouv.fr/6090/les-120-ans-de-la-loi-du-9-decembre-1905",
+      "type": "source_institutionnelle"
+    },
+    "MAIRE": {
+      "organisme": "Gouvernement",
+      "titre": "Élections municipales • désignation du maire",
+      "url": "https://www.info.gouv.fr/municipales2026",
+      "type": "source_institutionnelle"
+    },
+    "EURO": {
+      "organisme": "Banque centrale européenne",
+      "titre": "Le passage à l’euro",
+      "url": "https://www.ecb.europa.eu/euro/intro/html/index.fr.html",
+      "type": "source_institutionnelle"
+    },
+    "JURE": {
+      "organisme": "Service Public",
+      "titre": "Juré d’assises • sélection et rôle",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F1540",
+      "type": "source_institutionnelle"
+    },
+    "CITOYEN": {
+      "organisme": "Ministère de l’Intérieur",
+      "titre": "Les obligations du citoyen français",
+      "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/obligations-et-devoirs-des-personnes-residant-en-france/les-obligations-en-tant-que-citoyen-francais/",
+      "type": "source_institutionnelle"
+    },
+    "DISPENSE": {
+      "organisme": "Service Public",
+      "titre": "Demander une dispense comme juré d’assises",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F1044",
+      "type": "source_institutionnelle"
+    },
+    "ENFANT": {
+      "organisme": "Ministère de l’Intérieur",
+      "titre": "L’interdiction des violences faites aux enfants",
+      "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/obligations-et-devoirs-des-personnes-residant-en-france/l-interdiction-des-violences-faites-aux-enfants/",
+      "type": "source_institutionnelle"
+    },
+    "HARCELEMENT": {
+      "organisme": "Ministère de l’Éducation nationale",
+      "titre": "Harcèlement à l’école ou en ligne • aide et 3018",
+      "url": "https://www.education.gouv.fr/non-au-harcelement/je-suis-victime-de-harcelement-468671",
+      "type": "source_institutionnelle"
+    },
+    "PREUVES": {
+      "organisme": "Service Public",
+      "titre": "Cyberharcèlement • conserver les preuves",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F32239",
+      "type": "source_institutionnelle"
+    },
+    "VOTEF": {
+      "organisme": "Assemblée nationale",
+      "titre": "Chronologie du droit de vote des femmes",
+      "url": "https://www2.assemblee-nationale.fr/decouvrir-l-assemblee/histoire/le-suffrage-universel/la-conquete-de-la-citoyennete-politique-des-femmes/chronologie-du-droit-de-vote-et-d-eligibilite-des-femmes",
+      "type": "source_institutionnelle"
+    },
+    "APPEL": {
+      "organisme": "Élysée",
+      "titre": "Appel du 18 juin 1940",
+      "url": "https://www.elysee.fr/front/pdf/elysee-module-3453-fr.pdf",
+      "type": "source_institutionnelle"
+    },
+    "DEBARQUEMENT": {
+      "organisme": "Ministère des Armées • Chemins de mémoire",
+      "titre": "1944 • du Débarquement à la Libération",
+      "url": "https://www.cheminsdememoire.gouv.fr/fr/revue/le-retour-la-republique",
+      "type": "source_institutionnelle"
+    },
+    "PARIS": {
+      "organisme": "Paris Musées",
+      "titre": "La libération de Paris le 25 août 1944",
+      "url": "https://www.museeliberation-leclerc-moulin.paris.fr/ressources/ressource-pour-les-scolaires/eclairage-sur-une-oeuvre-la-liberation-de-paris",
+      "type": "source_institutionnelle"
+    },
+    "RODIN": {
+      "organisme": "Musée Rodin",
+      "titre": "Le Penseur",
+      "url": "https://www.musee-rodin.fr/musee/collections/oeuvres/penseur",
+      "type": "source_institutionnelle"
+    },
+    "BRETAGNE": {
+      "organisme": "Insee",
+      "titre": "Rennes • commune chef-lieu de la Bretagne",
+      "url": "https://www.insee.fr/fr/metadonnees/geographie/commune/35238-rennes",
+      "type": "source_institutionnelle"
+    },
+    "BATIMENT": {
+      "organisme": "Ministère de l’Éducation nationale",
+      "titre": "Bâti scolaire • rôles des collectivités",
+      "url": "https://batiscolaire.education.gouv.fr/sites/default/files/2025-05/guide-college-2025-05-19-pdf-39262.pdf",
+      "type": "source_institutionnelle"
+    },
+    "SALAIRE": {
+      "organisme": "Ministère du Travail",
+      "titre": "Égalité de rémunération entre les femmes et les hommes",
+      "url": "https://travail-emploi.gouv.fr/legalite-de-remuneration-entre-les-femmes-et-les-hommes-et-les-obligations-des-employeurs",
+      "type": "source_institutionnelle"
+    },
+    "SIGNE": {
+      "organisme": "Éduscol",
+      "titre": "Signes et tenues à l’école publique",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/fichevaleursrepubliqueconduitetenuereligieusepdf-96516.pdf",
+      "type": "source_institutionnelle"
+    },
+    "STAGE": {
+      "organisme": "Conseil d’État",
+      "titre": "Décision du 28 juillet 2017, n° 390740 • étudiants infirmiers",
+      "url": "https://www.conseil-etat.fr/fr/arianeweb/CE/decision/2017-07-28/390740",
+      "type": "source_institutionnelle"
+    },
+    "ALLO": {
+      "organisme": "Ministère de l’Éducation nationale",
+      "titre": "Scolarité des élèves allophones nouvellement arrivés",
+      "url": "https://www.education.gouv.fr/bo/12/Hebdo37/MENE1234231C.htm",
+      "type": "source_institutionnelle"
+    },
+    "ISOLOIR": {
+      "organisme": "Ministère de l’Intérieur",
+      "titre": "L’électeur, le jour du vote",
+      "url": "https://www.elections.interieur.gouv.fr/comprendre-elections/comment-je-vote/lelecteur-jour-du-vote",
+      "type": "source_institutionnelle"
+    },
+    "CANTINE": {
+      "organisme": "Service Public",
+      "titre": "Cantine à l’école primaire",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F24570",
+      "type": "source_institutionnelle"
+    },
+    "PROMOTION": {
+      "organisme": "Ministère du Travail",
+      "titre": "Égalité professionnelle et discriminations",
+      "url": "https://travail-emploi.gouv.fr/droit-du-travail/egalite-professionnelle-discrimination-et-harcelement",
+      "type": "source_institutionnelle"
+    },
+    "BRUIT": {
+      "organisme": "Service Public",
+      "titre": "Bruits de voisinage • démarches amiables",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F612",
+      "type": "source_institutionnelle"
+    },
+    "PARENTS": {
+      "organisme": "Légifrance",
+      "titre": "Code civil • article 371-1",
+      "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000049164413/2026-10-26",
+      "type": "source_institutionnelle"
+    },
+    "PLAINTE": {
+      "organisme": "Service Public",
+      "titre": "Vol • plainte contre X et choix du commissariat",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F1523?lang=fr",
+      "type": "source_institutionnelle"
+    },
+    "IMAGE": {
+      "organisme": "Service Public",
+      "titre": "Droit à l’image et diffusion d’un portrait",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F32103",
+      "type": "source_institutionnelle"
+    },
+    "RCR": {
+      "organisme": "Reddit • r/Expats_In_France",
+      "titre": "Retour d’un candidat déclarant avoir passé la mention CR",
+      "url": "https://www.reddit.com/r/Expats_In_France/comments/1s61pys/examen_civique_cds_plurianneulle_vs_carte_de/",
+      "type": "forum"
+    },
+    "RTLS": {
+      "organisme": "Reddit • r/conseiljuridique",
+      "titre": "Retour d’expérience à Toulouse • mention CSP",
+      "url": "https://www.reddit.com/r/conseiljuridique/comments/1q8bkwr/rex_examen_civique_pour_la_carte_de_s%C3%A9jour/",
+      "type": "forum"
+    },
+    "RNOV": {
+      "organisme": "Reddit • r/Expats_In_France",
+      "titre": "French Civic Exam Prep • discussion du 24 novembre",
+      "url": "https://www.reddit.com/r/Expats_In_France/comments/1y4d03v/french_civic_exam_prep/",
+      "type": "forum"
+    },
+    "RCHIFFRES": {
+      "organisme": "Reddit • r/Expats_In_France",
+      "titre": "Fiche communautaire sur les nombres à mémoriser",
+      "url": "https://www.reddit.com/r/Expats_In_France/comments/1xvy6we/i_made_a_free_sheet_of_every_number_the_french/",
+      "type": "ressource_communautaire"
+    },
+    "RNAT": {
+      "organisme": "Reddit • r/Expats_In_France",
+      "titre": "Compte rendu de préparation • naturalisation",
+      "url": "https://www.reddit.com/r/Expats_In_France/comments/1s3i4gd/i_passed_the_new_french_civic_exam/",
+      "type": "forum"
+    },
+    "PRESSE": {
+      "organisme": "Le Monde",
+      "titre": "Reportage en centre d’examen • candidate à la CSP",
+      "url": "https://www.lemonde.fr/societe/article/2025/12/25/en-region-parisienne-une-promo-a-l-epreuve-des-tests-exiges-des-etrangers-pour-obtenir-leurs-papiers_6659414_3224.html",
+      "type": "reportage"
+    }
+  },
+  "questions": [
+    {
+      "id": "RCR-20261127-K01",
+      "kind": "K",
+      "t": "V",
+      "sub": "V.symboles",
+      "titre": "Drapeau ou coq ?",
+      "p": "Sur un maillot figure un coq. Dans l’article 2 de la Constitution, quel symbole est désigné comme l’emblème national ?",
+      "o": [
+        "Le coq gaulois.",
+        "Le buste de Marianne.",
+        "Le drapeau bleu, blanc, rouge.",
+        "Le bonnet phrygien."
+      ],
+      "a": 2,
+      "ex": "La Constitution donne cette qualité au drapeau tricolore. Le coq évoque aussi la France, notamment dans le sport, mais le texte réserve le terme « emblème national » au drapeau.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://qpc360.conseil-constitutionnel.fr/constitution-4-octobre-1958",
+      "evidenceRef": "V.symboles",
+      "specificRef": {
+        "title": "Constitution du 4 octobre 1958 • article 2",
+        "url": "https://qpc360.conseil-constitutionnel.fr/constitution-4-octobre-1958",
+        "summary": "L’article 2 de la Constitution identifie le drapeau tricolore comme emblème national."
+      },
+      "preuves": [
+        "CONST",
+        "COQ"
+      ],
+      "repereProgramme": {
+        "code": "V.symboles",
+        "intitule": "Devise et symboles de la République",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/principes-et-valeurs-de-la-republique/devise-et-symboles-de-la-republique/"
+      },
+      "observationsPubliques": [],
+      "jours": [
+        1
+      ],
+      "questionsLieesV3": [
+        "K005",
+        "K008"
+      ],
+      "apport": "Demande de distinguer un emblème défini par la Constitution d’un symbole culturel.",
+      "piege": "Repérez le mot « emblème » et la référence à l’article 2. Plusieurs symboles peuvent faire penser à la France.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-K02",
+      "kind": "K",
+      "t": "V",
+      "sub": "V.laicite",
+      "titre": "Que commémore le 9 décembre ?",
+      "p": "Un lycée organise une journée de la laïcité le 9 décembre. Quel événement explique le choix de cette date ?",
+      "o": [
+        "La loi du 9 décembre 1905 sur la séparation des Églises et de l’État.",
+        "L’adoption en 1789 de la Déclaration des droits de l’homme et du citoyen.",
+        "L’adoption en 1958 de la Constitution de la Ve République.",
+        "L’adoption en 2004 de la loi sur les signes religieux à l’école."
+      ],
+      "a": 0,
+      "ex": "Le 9 décembre marque l’anniversaire de la loi de 1905. La loi de 2004 porte sur une question plus précise, celle des signes et tenues manifestant ostensiblement une appartenance religieuse à l’école publique.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://eduscol.education.gouv.fr/6090/les-120-ans-de-la-loi-du-9-decembre-1905",
+      "evidenceRef": "V.laicite",
+      "specificRef": {
+        "title": "La loi du 9 décembre 1905",
+        "url": "https://eduscol.education.gouv.fr/6090/les-120-ans-de-la-loi-du-9-decembre-1905",
+        "summary": "La loi du 9 décembre 1905 organise la séparation des Églises et de l’État. Son anniversaire est un temps consacré à la laïcité à l’école."
+      },
+      "preuves": [
+        "DEC"
+      ],
+      "repereProgramme": {
+        "code": "V.laicite",
+        "intitule": "La laïcité",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/principes-et-valeurs-de-la-republique/laicite/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CSP-TOULOUSE",
+          "lienAvecExercice": "Le récit CSP mentionne des dates liées à la laïcité. La date et la commémoration précises sont documentées par Éduscol."
+        }
+      ],
+      "jours": [
+        2
+      ],
+      "questionsLieesV3": [
+        "K025",
+        "K031"
+      ],
+      "apport": "Retrouver la loi à partir d’une commémoration, au lieu de réciter une année.",
+      "piege": "Rattachez 1905 à la séparation des Églises et de l’État, et 2004 aux signes à l’école.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-K03",
+      "kind": "K",
+      "t": "I",
+      "sub": "I.democratie",
+      "titre": "Le vote des municipales",
+      "p": "Dans une commune, le nouveau conseil municipal se réunit pour la première fois. À qui revient alors le choix du maire ?",
+      "o": [
+        "Aux électeurs, qui votent une deuxième fois pour le maire seul.",
+        "Au préfet, qui nomme la tête de la liste arrivée en tête.",
+        "Aux conseillers départementaux élus dans le canton.",
+        "Aux conseillers municipaux, qui élisent le maire parmi eux."
+      ],
+      "a": 3,
+      "ex": "Les électeurs choisissent les conseillers municipaux. Ces conseillers procèdent ensuite à l’élection du maire parmi les membres du conseil municipal.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://www.info.gouv.fr/municipales2026",
+      "evidenceRef": "I.democratie",
+      "specificRef": {
+        "title": "Élections municipales • désignation du maire",
+        "url": "https://www.info.gouv.fr/municipales2026",
+        "summary": "L’élection du maire a lieu au sein du conseil municipal après l’élection des conseillers."
+      },
+      "preuves": [
+        "MAIRE"
+      ],
+      "repereProgramme": {
+        "code": "I.democratie",
+        "intitule": "Démocratie et droit de vote",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/systeme-institutionnel-et-politique/democratie-et-droit-de-vote/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CSP-TOULOUSE",
+          "lienAvecExercice": "Le récit CSP évoque les mandats et les institutions. Ce nouvel exercice porte sur la désignation du maire."
+        }
+      ],
+      "jours": [
+        3
+      ],
+      "questionsLieesV3": [
+        "K047",
+        "K072"
+      ],
+      "apport": "Distingue le mode de désignation du maire de la durée du mandat déjà demandée.",
+      "piege": "Gardez les deux verbes en tête : les habitants élisent le conseil, puis le conseil élit le maire.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-K04",
+      "kind": "K",
+      "t": "I",
+      "sub": "I.europe",
+      "titre": "Deux débuts pour l’euro",
+      "p": "Pourquoi 1999 et 2002 sont-elles toutes deux des dates importantes pour l’euro en France ?",
+      "o": [
+        "Les espèces apparaissent en 1999 et la monnaie est lancée en 2002.",
+        "L’euro est lancé en 1999 et les pièces et billets arrivent en 2002.",
+        "Le traité de Maastricht est signé en 1999 et le franc est créé en 2002.",
+        "Les billets en euros circulent dès 1999 et les premières pièces en 2002."
+      ],
+      "a": 1,
+      "ex": "À partir du 1er janvier 1999, l’euro sert notamment aux opérations comptables. Les pièces et billets en euros entrent en circulation le 1er janvier 2002.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://www.ecb.europa.eu/euro/intro/html/index.fr.html",
+      "evidenceRef": "I.europe",
+      "specificRef": {
+        "title": "Le passage à l’euro",
+        "url": "https://www.ecb.europa.eu/euro/intro/html/index.fr.html",
+        "summary": "La Banque centrale européenne distingue la naissance de l’euro en 1999 et sa mise en circulation sous forme de pièces et billets en 2002."
+      },
+      "preuves": [
+        "EURO"
+      ],
+      "repereProgramme": {
+        "code": "I.europe",
+        "intitule": "Institutions et construction européenne",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/systeme-institutionnel-et-politique/"
+      },
+      "observationsPubliques": [],
+      "jours": [
+        4
+      ],
+      "questionsLieesV3": [
+        "K081",
+        "K177"
+      ],
+      "apport": "Réunit les deux questions de la v3 dans une comparaison qui lève une ambiguïté de vocabulaire.",
+      "piege": "Si l’énoncé parle de monnaie en espèces, imaginez ce que l’on tient dans la main.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-K05",
+      "kind": "K",
+      "t": "D",
+      "sub": "D.devoirs",
+      "titre": "Qui siège aux assises ?",
+      "p": "Un citoyen français de 30 ans apprend qu’il figure sur une liste de jurés d’assises. Comment peut-on figurer sur cette liste ?",
+      "o": [
+        "Par élection lors du renouvellement du conseil municipal.",
+        "Après réussite du concours de la magistrature.",
+        "Uniquement après avoir proposé sa candidature au procureur.",
+        "Par tirage au sort à partir des listes électorales, sous les conditions prévues par la loi."
+      ],
+      "a": 3,
+      "ex": "Des citoyens sont tirés au sort à partir des listes électorales. Si les conditions sont remplies et qu’ils sont retenus pour un procès, ils participent au jugement avec les magistrats professionnels.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://www.service-public.gouv.fr/particuliers/vosdroits/F1540",
+      "evidenceRef": "D.devoirs",
+      "specificRef": {
+        "title": "Juré d’assises • sélection et rôle",
+        "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F1540",
+        "summary": "Le jury d’assises fait participer des citoyens au jugement des crimes aux côtés des magistrats professionnels."
+      },
+      "preuves": [
+        "JURE",
+        "CITOYEN"
+      ],
+      "repereProgramme": {
+        "code": "D.devoirs",
+        "intitule": "Obligations et devoirs des résidents",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/obligations-et-devoirs-des-personnes-residant-en-france/"
+      },
+      "observationsPubliques": [],
+      "jours": [
+        6
+      ],
+      "questionsLieesV3": [
+        "K022",
+        "K113"
+      ],
+      "apport": "Introduit le mécanisme concret de participation citoyenne aux assises.",
+      "piege": "Ne confondez pas le mode de sélection du juré avec le recrutement d’un magistrat.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-K06",
+      "kind": "K",
+      "t": "D",
+      "sub": "D.devoirs",
+      "titre": "Harcèlement entre élèves",
+      "p": "Des camarades humilient un élève à plusieurs reprises. Quelle affirmation décrit correctement le harcèlement scolaire ?",
+      "o": [
+        "Il suppose toujours une blessure physique constatée.",
+        "Il peut constituer un délit même en l’absence de coups et lorsque les faits se prolongent en ligne.",
+        "Il concerne uniquement les faits commis dans l’enceinte scolaire.",
+        "Il relève uniquement du règlement intérieur de l’établissement."
+      ],
+      "a": 1,
+      "ex": "Des violences verbales ou psychologiques répétées entre élèves peuvent caractériser le harcèlement scolaire. Les messages envoyés après les cours peuvent en faire partie. La loi sanctionne ce délit.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/obligations-et-devoirs-des-personnes-residant-en-france/l-interdiction-des-violences-faites-aux-enfants/",
+      "evidenceRef": "D.devoirs",
+      "specificRef": {
+        "title": "L’interdiction des violences faites aux enfants",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/obligations-et-devoirs-des-personnes-residant-en-france/l-interdiction-des-violences-faites-aux-enfants/",
+        "summary": "Le harcèlement scolaire peut prendre la forme de violences répétées dans l’établissement ou en dehors. C’est une infraction pénale."
+      },
+      "preuves": [
+        "ENFANT",
+        "HARCELEMENT"
+      ],
+      "repereProgramme": {
+        "code": "D.devoirs",
+        "intitule": "Obligations et devoirs des résidents",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/obligations-et-devoirs-des-personnes-residant-en-france/"
+      },
+      "observationsPubliques": [],
+      "jours": [
+        6,
+        9
+      ],
+      "questionsLieesV3": [
+        "K114",
+        "K117",
+        "K121"
+      ],
+      "apport": "Applique la qualification de délit à des comportements liés à la vie scolaire.",
+      "piege": "Le lieu et l’absence de blessure visible ne suffisent pas à écarter le harcèlement.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-K07",
+      "kind": "K",
+      "t": "H",
+      "sub": "H.histoire",
+      "titre": "Obtenir un droit et l’exercer",
+      "p": "Les Françaises obtiennent le droit de vote en 1944. Lors de quel scrutin l’exercent-elles pour la première fois ?",
+      "o": [
+        "Aux élections municipales d’avril 1945.",
+        "Aux élections municipales d’avril 1944.",
+        "Aux élections législatives d’octobre 1945.",
+        "À l’élection présidentielle de 1965."
+      ],
+      "a": 0,
+      "ex": "L’ordonnance du 21 avril 1944 reconnaît le droit de vote et d’éligibilité. Le premier tour des municipales du 29 avril 1945 marque le premier vote des Françaises. Elles participent aussi à un scrutin national en octobre 1945, donc plus tard.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/decouvrir-l-assemblee/histoire/le-suffrage-universel/la-conquete-de-la-citoyennete-politique-des-femmes/chronologie-du-droit-de-vote-et-d-eligibilite-des-femmes",
+      "evidenceRef": "H.histoire",
+      "specificRef": {
+        "title": "Chronologie du droit de vote des femmes",
+        "url": "https://www2.assemblee-nationale.fr/decouvrir-l-assemblee/histoire/le-suffrage-universel/la-conquete-de-la-citoyennete-politique-des-femmes/chronologie-du-droit-de-vote-et-d-eligibilite-des-femmes",
+        "summary": "La chronologie de l’Assemblée nationale distingue la reconnaissance du droit, en 1944, et les municipales qui suivent, en 1945."
+      },
+      "preuves": [
+        "VOTEF"
+      ],
+      "repereProgramme": {
+        "code": "H.histoire",
+        "intitule": "Histoire de la France",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/histoire-geographie-et-culture/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CR-MARS",
+          "lienAvecExercice": "Le candidat CR conseille de réviser les dates. Le scrutin de 1945 est un exemple choisi pour cet exercice."
+        }
+      ],
+      "jours": [
+        7
+      ],
+      "questionsLieesV3": [
+        "K139",
+        "K111"
+      ],
+      "apport": "Demande la nature du premier scrutin et distingue les deux consultations de 1945.",
+      "piege": "« Obtenir le droit » et « voter pour la première fois » renvoient à deux événements.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-K08",
+      "kind": "K",
+      "t": "H",
+      "sub": "H.histoire",
+      "titre": "Trois repères de la guerre",
+      "p": "Quelle suite replace ces trois événements dans l’ordre chronologique, du plus ancien au plus récent ?",
+      "o": [
+        "Débarquement en Normandie → appel du général de Gaulle depuis Londres → libération de Paris.",
+        "Appel du général de Gaulle depuis Londres → libération de Paris → débarquement en Normandie.",
+        "Appel du général de Gaulle depuis Londres → débarquement en Normandie → libération de Paris.",
+        "Libération de Paris → débarquement en Normandie → appel du général de Gaulle depuis Londres."
+      ],
+      "a": 2,
+      "ex": "L’appel date du 18 juin 1940. Les Alliés débarquent en Normandie le 6 juin 1944. Paris est libérée le 25 août 1944.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://www.elysee.fr/front/pdf/elysee-module-3453-fr.pdf",
+      "evidenceRef": "H.histoire",
+      "specificRef": {
+        "title": "Appel du 18 juin 1940",
+        "url": "https://www.elysee.fr/front/pdf/elysee-module-3453-fr.pdf",
+        "summary": "L’appel lancé depuis Londres en juin 1940 précède de plusieurs années les événements militaires de l’été 1944."
+      },
+      "preuves": [
+        "APPEL",
+        "DEBARQUEMENT",
+        "PARIS"
+      ],
+      "repereProgramme": {
+        "code": "H.histoire",
+        "intitule": "Histoire de la France",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/histoire-geographie-et-culture/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CR-MARS",
+          "lienAvecExercice": "Le candidat CR cite de Gaulle comme repère de révision."
+        },
+        {
+          "id": "CSP-TOULOUSE",
+          "lienAvecExercice": "Le candidat CSP mentionne le Débarquement et la libération de Paris."
+        }
+      ],
+      "jours": [
+        7
+      ],
+      "questionsLieesV3": [
+        "K134",
+        "K136"
+      ],
+      "apport": "Transforme deux repères isolés en une chronologie qui inclut la libération de Paris.",
+      "piege": "Les deux dates de juin sont séparées de quatre ans. Commencez par comparer les années.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-K09",
+      "kind": "K",
+      "t": "H",
+      "sub": "H.patrimoine",
+      "titre": "Reconnaître une œuvre de Rodin",
+      "p": "Un musée présente Le Penseur. Quel nom et quelle technique faut-il associer à cette œuvre ?",
+      "o": [
+        "Pierre-Auguste Renoir, sculpture.",
+        "Auguste Rodin, sculpture.",
+        "Auguste Rodin, peinture.",
+        "Claude Monet, peinture."
+      ],
+      "a": 1,
+      "ex": "Le Penseur est une sculpture d’Auguste Rodin. Le musée explique que l’œuvre a d’abord été conçue pour La Porte de l’Enfer. Retenez le lien entre l’artiste, l’œuvre et sa technique.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://www.musee-rodin.fr/musee/collections/oeuvres/penseur",
+      "evidenceRef": "H.patrimoine",
+      "specificRef": {
+        "title": "Le Penseur",
+        "url": "https://www.musee-rodin.fr/musee/collections/oeuvres/penseur",
+        "summary": "Le musée attribue Le Penseur à Auguste Rodin et présente l’œuvre dans ses collections de sculptures."
+      },
+      "preuves": [
+        "RODIN"
+      ],
+      "repereProgramme": {
+        "code": "H.patrimoine",
+        "intitule": "Culture et patrimoine",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/histoire-geographie-et-culture/culture/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CR-MARS",
+          "lienAvecExercice": "Le candidat CR cite Rodin comme repère culturel. Le choix de l’œuvre relève de la rédaction."
+        }
+      ],
+      "jours": [
+        8
+      ],
+      "questionsLieesV3": [
+        "K167",
+        "K168"
+      ],
+      "apport": "Ajoute une œuvre précise à la question existante sur le métier de Rodin.",
+      "piege": "Le prénom « Auguste » se retrouve dans plusieurs noms d’artistes. Identifiez aussi la technique.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-K10",
+      "kind": "K",
+      "t": "H",
+      "sub": "H.geographie",
+      "titre": "Situer la Bretagne administrative",
+      "p": "Vous cherchez le chef-lieu de la région administrative Bretagne. Quelle ville devez-vous repérer sur la carte ?",
+      "o": [
+        "Brest.",
+        "Nantes.",
+        "Quimper.",
+        "Rennes."
+      ],
+      "a": 3,
+      "ex": "Le Code officiel géographique rattache la région Bretagne à son chef-lieu, Rennes. Le mot « chef-lieu » demande ici la ville qui exerce la fonction administrative.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://www.insee.fr/fr/metadonnees/geographie/commune/35238-rennes",
+      "evidenceRef": "H.geographie",
+      "specificRef": {
+        "title": "Rennes • commune chef-lieu de la Bretagne",
+        "url": "https://www.insee.fr/fr/metadonnees/geographie/commune/35238-rennes",
+        "summary": "Le Code officiel géographique de l’Insee donne Rennes comme chef-lieu de la région Bretagne."
+      },
+      "preuves": [
+        "BRETAGNE"
+      ],
+      "repereProgramme": {
+        "code": "H.geographie",
+        "intitule": "Atlas de la France",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/histoire-geographie-et-culture/atlas-de-la-france/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CSP-TOULOUSE",
+          "lienAvecExercice": "Le chef-lieu de la Bretagne figure parmi les thèmes évoqués par le candidat CSP."
+        }
+      ],
+      "jours": [
+        8
+      ],
+      "questionsLieesV3": [
+        "K157",
+        "K162"
+      ],
+      "apport": "Nouvel exemple régional issu d’un récit CSP et vérifié auprès de l’Insee.",
+      "piege": "Une grande ville maritime peut être bien connue sans être chef-lieu de région.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-K11",
+      "kind": "K",
+      "t": "I",
+      "sub": "I.organisation",
+      "titre": "Qui entretient les établissements ?",
+      "p": "Dans le cas général, quelles collectivités ont la charge des bâtiments des collèges et des lycées publics ?",
+      "o": [
+        "La région pour les collèges et le département pour les lycées.",
+        "La commune pour les collèges et le département pour les lycées.",
+        "Le département pour les collèges et la région pour les lycées.",
+        "La région pour les collèges et pour les lycées."
+      ],
+      "a": 2,
+      "ex": "Pour les bâtiments, associez les collèges au département et les lycées à la région. L’énoncé porte sur la responsabilité matérielle des locaux.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://batiscolaire.education.gouv.fr/sites/default/files/2025-05/guide-college-2025-05-19-pdf-39262.pdf",
+      "evidenceRef": "I.organisation",
+      "specificRef": {
+        "title": "Bâti scolaire • rôles des collectivités",
+        "url": "https://batiscolaire.education.gouv.fr/sites/default/files/2025-05/guide-college-2025-05-19-pdf-39262.pdf",
+        "summary": "Le guide du bâti scolaire distingue les collectivités selon le type d’établissement public."
+      },
+      "preuves": [
+        "BATIMENT"
+      ],
+      "repereProgramme": {
+        "code": "I.organisation",
+        "intitule": "Organisation de la République française",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/systeme-institutionnel-et-politique/organisation-de-la-republique-fran%C3%A7aise/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "NOV-INSTIT",
+          "lienAvecExercice": "Le commentaire sur la naturalisation cite les compétences des collectivités. Le cas des bâtiments scolaires est une variante documentée."
+        }
+      ],
+      "jours": [
+        4,
+        9
+      ],
+      "questionsLieesV3": [
+        "K073",
+        "K074"
+      ],
+      "apport": "Compare deux niveaux de collectivités au moyen de la même mission matérielle.",
+      "piege": "Lisez le verbe et son objet : entretenir un bâtiment et fixer le programme scolaire sont deux missions distinctes.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-K12",
+      "kind": "K",
+      "t": "S",
+      "sub": "S.travail",
+      "titre": "Comparer deux rémunérations",
+      "p": "Pour appliquer l’égalité de rémunération entre femmes et hommes, quels travaux peut-on comparer ?",
+      "o": [
+        "Le même travail ou des travaux de valeur égale.",
+        "Uniquement des postes qui portent exactement le même intitulé.",
+        "Uniquement des postes exercés dans la même pièce.",
+        "Seulement les postes pour lesquels les salariés ont négocié ensemble."
+      ],
+      "a": 0,
+      "ex": "La comparaison peut porter sur des fonctions différentes dont la valeur est comparable, notamment par les connaissances, les responsabilités et les contraintes qu’elles exigent. La différence de sexe ne justifie pas à elle seule un écart.",
+      "source": "revision_editoriale",
+      "sourceUrl": "https://travail-emploi.gouv.fr/legalite-de-remuneration-entre-les-femmes-et-les-hommes-et-les-obligations-des-employeurs",
+      "evidenceRef": "S.travail",
+      "specificRef": {
+        "title": "Égalité de rémunération entre les femmes et les hommes",
+        "url": "https://travail-emploi.gouv.fr/legalite-de-remuneration-entre-les-femmes-et-les-hommes-et-les-obligations-des-employeurs",
+        "summary": "Le principe d’égalité salariale couvre aussi des travaux dont le contenu diffère si leur valeur est égale."
+      },
+      "preuves": [
+        "SALAIRE"
+      ],
+      "repereProgramme": {
+        "code": "S.travail",
+        "intitule": "Emploi et droit du travail",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/vivre-dans-la-societe-fran%C3%A7aise/emploi/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CR-MARS",
+          "lienAvecExercice": "Le candidat CR évoque le sexisme au travail. Cette question aborde le critère de comparaison des rémunérations."
+        }
+      ],
+      "jours": [
+        2,
+        9
+      ],
+      "questionsLieesV3": [
+        "K018",
+        "K019"
+      ],
+      "apport": "Étend le thème de l’égalité à la rémunération et au critère de valeur du travail.",
+      "piege": "Un intitulé de poste différent ne suffit pas à exclure une comparaison.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M01",
+      "kind": "M",
+      "t": "V",
+      "sub": "V.situation",
+      "titre": "Un signe discret au lycée",
+      "p": "Dans un lycée public, une élève porte un petit pendentif religieux discret. Elle suit les cours normalement. Que prévoit la règle pour les élèves ?",
+      "o": [
+        "Elle doit le retirer, comme tout agent d’un service public.",
+        "Elle peut conserver ce signe discret.",
+        "Elle peut le porter uniquement avec une dispense écrite du rectorat.",
+        "Elle peut le porter dans la cour, mais aucun signe discret n’est permis en classe."
+      ],
+      "a": 1,
+      "ex": "Pour les élèves des écoles, collèges et lycées publics, l’interdiction vise les signes ou tenues par lesquels ils manifestent ostensiblement leur appartenance religieuse. Le pendentif décrit est discret. Un membre du personnel en service relève d’une autre obligation.",
+      "source": "simulation",
+      "sourceUrl": "https://eduscol.education.gouv.fr/sites/default/files/document/fichevaleursrepubliqueconduitetenuereligieusepdf-96516.pdf",
+      "evidenceRef": "V.laicite",
+      "specificRef": {
+        "title": "Signes et tenues à l’école publique",
+        "url": "https://eduscol.education.gouv.fr/sites/default/files/document/fichevaleursrepubliqueconduitetenuereligieusepdf-96516.pdf",
+        "summary": "Les règles scolaires distinguent le signe discret de la manifestation ostensible d’une appartenance religieuse."
+      },
+      "preuves": [
+        "SIGNE"
+      ],
+      "repereProgramme": {
+        "code": "V.laicite",
+        "intitule": "La laïcité",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/principes-et-valeurs-de-la-republique/laicite/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CR-MARS",
+          "lienAvecExercice": "Le candidat CR évoque les signes religieux en général. Le cas du pendentif discret est inventé."
+        }
+      ],
+      "jours": [
+        2,
+        10
+      ],
+      "questionsLieesV3": [
+        "K036",
+        "M016"
+      ],
+      "apport": "Précise la règle applicable à un signe discret. La v3 traite déjà de la neutralité de l’enseignant.",
+      "piege": "Demandez-vous d’abord si la personne est élève ou membre du personnel.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M02",
+      "kind": "M",
+      "t": "V",
+      "sub": "V.situation",
+      "titre": "Même étudiante, deux activités",
+      "p": "Une étudiante suit un cours dans son institut de formation en soins infirmiers, hors lycée. Le lendemain, elle soigne des patients en stage dans un hôpital public. Quelle règle de neutralité s’applique ?",
+      "o": [
+        "Elle peut manifester ses convictions dans les deux lieux du seul fait de son statut d’étudiante.",
+        "Elle doit rester neutre en cours, mais le port d’un signe en stage dépend seulement de l’accord du patient.",
+        "Les mêmes obligations que celles des agents hospitaliers s’appliquent aussi pendant tous les cours à l’institut.",
+        "En cours, elle a la liberté d’une usagère dans le respect du service. Pendant le stage hospitalier public, elle doit observer la neutralité."
+      ],
+      "a": 3,
+      "ex": "Le Conseil d’État distingue la formation à l’institut et le stage. En cours, l’étudiante peut manifester ses convictions si elle respecte le déroulement des cours et le fonctionnement du service. Au contact des patients dans ce stage public, les obligations des agents s’appliquent.",
+      "source": "simulation",
+      "sourceUrl": "https://www.conseil-etat.fr/fr/arianeweb/CE/decision/2017-07-28/390740",
+      "evidenceRef": "V.laicite",
+      "specificRef": {
+        "title": "Décision du 28 juillet 2017, n° 390740 • étudiants infirmiers",
+        "url": "https://www.conseil-etat.fr/fr/arianeweb/CE/decision/2017-07-28/390740",
+        "summary": "En institut de formation et en stage de service public hospitalier, le Conseil d’État distingue deux statuts de l’élève infirmier."
+      },
+      "preuves": [
+        "STAGE"
+      ],
+      "repereProgramme": {
+        "code": "V.laicite",
+        "intitule": "La laïcité",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/principes-et-valeurs-de-la-republique/laicite/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CR-MARS",
+          "lienAvecExercice": "Le thème religieux est évoqué en CR. Le changement de statut entre institut et stage est tiré de la jurisprudence."
+        }
+      ],
+      "jours": [
+        2,
+        10
+      ],
+      "questionsLieesV3": [
+        "K033",
+        "K036",
+        "M002"
+      ],
+      "apport": "Introduit un changement de statut au sein d’une même formation. Le cas est documenté par une décision du Conseil d’État.",
+      "piege": "Suivez le changement de rôle d’une phrase à l’autre : elle étudie, puis elle participe au service public hospitalier.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M03",
+      "kind": "M",
+      "t": "V",
+      "sub": "V.situation",
+      "titre": "Une inscription en cours d’année",
+      "p": "Une famille arrive en France en cours d’année. Son enfant de dix ans parle encore peu français. Quelle réponse l’école publique doit-elle apporter ?",
+      "o": [
+        "Différer la scolarisation jusqu’à ce qu’il parle couramment français.",
+        "Exiger une certification de français avant toute inscription en classe.",
+        "Le scolariser et organiser, après évaluation de ses besoins, l’accompagnement en français adapté.",
+        "L’orienter obligatoirement vers un établissement privé pour sa première année."
+      ],
+      "a": 2,
+      "ex": "Un élève nouvellement arrivé a sa place à l’école. La scolarisation en classe ordinaire et un soutien en français peuvent être associés. Une unité pédagogique pour élèves allophones arrivants (UPE2A) est une modalité d’appui selon ses besoins.",
+      "source": "simulation",
+      "sourceUrl": "https://www.education.gouv.fr/bo/12/Hebdo37/MENE1234231C.htm",
+      "evidenceRef": "S.education",
+      "specificRef": {
+        "title": "Scolarité des élèves allophones nouvellement arrivés",
+        "url": "https://www.education.gouv.fr/bo/12/Hebdo37/MENE1234231C.htm",
+        "summary": "La scolarisation de l’élève allophone s’accompagne d’une évaluation et d’un soutien en français adaptés."
+      },
+      "preuves": [
+        "ALLO"
+      ],
+      "repereProgramme": {
+        "code": "S.education",
+        "intitule": "Parentalité et école",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/vivre-dans-la-societe-fran%C3%A7aise/parentalite/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CSP-REPORTAGE",
+          "lienAvecExercice": "La candidate CSP évoque la scolarisation d’un enfant allophone. L’âge, les options et la correction sont rédigés pour cet exercice."
+        }
+      ],
+      "jours": [
+        1,
+        9,
+        10
+      ],
+      "questionsLieesV3": [
+        "K198",
+        "K199",
+        "M025"
+      ],
+      "apport": "Complète la question sur l’âge de l’instruction par le cas d’une arrivée avec une autre langue.",
+      "piege": "Le besoin d’apprendre le français détermine l’accompagnement, pas le droit d’être scolarisé.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M04",
+      "kind": "M",
+      "t": "V",
+      "sub": "V.situation",
+      "titre": "Un vote que l’on veut vérifier",
+      "p": "Un électeur capable de voter seul vient avec un proche. Le proche veut entrer avec lui dans l’isoloir pour vérifier son choix. Que doit faire l’électeur ?",
+      "o": [
+        "Entrer seul dans l’isoloir et garder son choix secret s’il le souhaite.",
+        "Le laisser entrer à condition qu’il soit inscrit dans le même bureau.",
+        "Lui remettre son bulletin pour qu’il vote une deuxième fois dans la matinée.",
+        "Présenter son bulletin déplié au président du bureau pour faire valider son choix."
+      ],
+      "a": 0,
+      "ex": "Le passage par l’isoloir protège le secret et la liberté du vote. Un proche ne peut pas exiger de contrôler le bulletin. La question précise que l’électeur peut accomplir lui-même les gestes du vote.",
+      "source": "simulation",
+      "sourceUrl": "https://www.elections.interieur.gouv.fr/comprendre-elections/comment-je-vote/lelecteur-jour-du-vote",
+      "evidenceRef": "I.democratie",
+      "specificRef": {
+        "title": "L’électeur, le jour du vote",
+        "url": "https://www.elections.interieur.gouv.fr/comprendre-elections/comment-je-vote/lelecteur-jour-du-vote",
+        "summary": "Le ministère décrit le passage obligatoire par l’isoloir pour préserver le secret du vote."
+      },
+      "preuves": [
+        "ISOLOIR"
+      ],
+      "repereProgramme": {
+        "code": "I.democratie",
+        "intitule": "Démocratie et droit de vote",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/systeme-institutionnel-et-politique/democratie-et-droit-de-vote/"
+      },
+      "observationsPubliques": [],
+      "jours": [
+        1,
+        3,
+        10
+      ],
+      "questionsLieesV3": [
+        "K041",
+        "K045"
+      ],
+      "apport": "Ajoute une situation de pression sur le vote à la question existante sur la procuration.",
+      "piege": "La présence d’un proche et une procuration valable sont deux situations différentes.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M05",
+      "kind": "M",
+      "t": "V",
+      "sub": "V.situation",
+      "titre": "Cantine et emploi d’un parent",
+      "p": "Une école élémentaire publique propose une cantine où des places sont disponibles. La mairie refuse une inscription uniquement parce qu’un parent est sans emploi. Que peut faire valoir la famille ?",
+      "o": [
+        "Les places sont réservées par la loi aux enfants dont les deux parents travaillent.",
+        "Un parent sans emploi ne peut demander une place qu’après un refus écrit de France Travail.",
+        "La situation professionnelle du parent ne justifie pas ce refus d’inscription.",
+        "Une cantine municipale peut choisir librement les familles, même lorsque des places sont disponibles."
+      ],
+      "a": 2,
+      "ex": "Lorsqu’une commune offre la restauration scolaire en primaire, les enfants scolarisés ont un droit d’accès au service. La situation sociale de la famille ne doit pas faire obstacle à l’inscription.",
+      "source": "simulation",
+      "sourceUrl": "https://www.service-public.gouv.fr/particuliers/vosdroits/F24570",
+      "evidenceRef": "S.education",
+      "specificRef": {
+        "title": "Cantine à l’école primaire",
+        "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F24570",
+        "summary": "Lorsqu’une cantine primaire est organisée, la situation sociale de la famille ne doit pas empêcher l’inscription de l’enfant."
+      },
+      "preuves": [
+        "CANTINE"
+      ],
+      "repereProgramme": {
+        "code": "S.education",
+        "intitule": "Parentalité et école",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/vivre-dans-la-societe-fran%C3%A7aise/parentalite/"
+      },
+      "observationsPubliques": [],
+      "jours": [
+        1,
+        9,
+        10
+      ],
+      "questionsLieesV3": [
+        "K018",
+        "K209"
+      ],
+      "apport": "Fait appliquer l’égalité d’accès à une décision individuelle et explicite le critère du refus.",
+      "piege": "Deux détails comptent : le service existe et des places sont disponibles.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M06",
+      "kind": "M",
+      "t": "V",
+      "sub": "V.situation",
+      "titre": "Une promotion dans un atelier",
+      "p": "Une technicienne remplit les critères pour devenir cheffe d’équipe. Le responsable écarte son dossier en expliquant que les clients préfèrent un homme à ce poste. Quelle règle s’applique ?",
+      "o": [
+        "Le choix doit reposer sur des critères professionnels. L’écarter pour son sexe est discriminatoire.",
+        "La préférence exprimée par les clients rend ce critère valable.",
+        "L’interdiction des discriminations couvre l’embauche, mais cesse lors d’une promotion interne.",
+        "Le refus est permis dès lors que la salariée conserve son poste et son salaire actuels."
+      ],
+      "a": 0,
+      "ex": "L’égalité de traitement vaut aussi pour la promotion professionnelle. Une entreprise ne peut pas justifier le refus décrit par un stéréotype lié au sexe ou par la préférence de clients.",
+      "source": "simulation",
+      "sourceUrl": "https://travail-emploi.gouv.fr/droit-du-travail/egalite-professionnelle-discrimination-et-harcelement",
+      "evidenceRef": "S.travail",
+      "specificRef": {
+        "title": "Égalité professionnelle et discriminations",
+        "url": "https://travail-emploi.gouv.fr/droit-du-travail/egalite-professionnelle-discrimination-et-harcelement",
+        "summary": "La promotion professionnelle relève des décisions d’emploi soumises à l’interdiction des discriminations."
+      },
+      "preuves": [
+        "PROMOTION"
+      ],
+      "repereProgramme": {
+        "code": "S.travail",
+        "intitule": "Emploi et droit du travail",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/vivre-dans-la-societe-fran%C3%A7aise/emploi/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CR-MARS",
+          "lienAvecExercice": "Le candidat CR évoque le sexisme au travail. La promotion dans un atelier est un cas créé pour appliquer la règle."
+        }
+      ],
+      "jours": [
+        1,
+        2,
+        10
+      ],
+      "questionsLieesV3": [
+        "K019",
+        "M024"
+      ],
+      "apport": "Porte sur une promotion refusée, alors que la v3 traite déjà du recrutement et de la grossesse.",
+      "piege": "Identifiez le motif réel de la décision, même si l’employeur l’attribue à un tiers.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M07",
+      "kind": "M",
+      "t": "D",
+      "sub": "D.situation",
+      "titre": "Du bruit avant la nuit",
+      "p": "Un voisin répète avec une batterie amplifiée plusieurs après-midi par semaine. Le bruit empêche régulièrement la famille d’à côté de travailler. Il n’y a ni menace ni urgence. Quelle première démarche amiable convient ?",
+      "o": [
+        "Attendre qu’il joue après 22 heures, puisque le bruit de jour ne peut jamais constituer un trouble.",
+        "Saisir directement le juge pour lui demander de fixer un horaire, avant de parler au voisin.",
+        "Répondre par du bruit à un autre moment pour obtenir une compensation.",
+        "Expliquer la gêne au voisin et chercher un aménagement du volume ou des horaires."
+      ],
+      "a": 3,
+      "ex": "Un bruit peut causer un trouble anormal de jour comme de nuit. La répétition, la durée ou l’intensité comptent. Dans la situation paisible décrite, un échange avec le voisin constitue une première démarche, avant d’autres recours si la gêne persiste.",
+      "source": "simulation",
+      "sourceUrl": "https://www.service-public.gouv.fr/particuliers/vosdroits/F612",
+      "evidenceRef": "D.devoirs",
+      "specificRef": {
+        "title": "Bruits de voisinage • démarches amiables",
+        "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F612",
+        "summary": "Service Public présente la prise de contact avec l’auteur du bruit comme une première démarche amiable."
+      },
+      "preuves": [
+        "BRUIT"
+      ],
+      "repereProgramme": {
+        "code": "D.devoirs",
+        "intitule": "Obligations et devoirs des résidents",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/obligations-et-devoirs-des-personnes-residant-en-france/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CSP-TOULOUSE",
+          "lienAvecExercice": "Le récit CSP évoque des nuisances sonores de voisinage. Le nouvel énoncé précise le contexte paisible et demande une première démarche amiable."
+        }
+      ],
+      "jours": [
+        6,
+        10
+      ],
+      "questionsLieesV3": [
+        "K112",
+        "M023"
+      ],
+      "apport": "Introduit les nuisances sonores en journée et précise le stade de la démarche.",
+      "piege": "Le mot déterminant est « amiable ». On ne vous demande pas d’énumérer tous les recours possibles.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M08",
+      "kind": "M",
+      "t": "D",
+      "sub": "D.situation",
+      "titre": "Des messages après les cours",
+      "p": "Plusieurs soirs de suite, une collégienne reçoit des montages humiliants sur le groupe de sa classe. Elle vous demande de l’aide. Quel geste protège la victime tout en conservant de quoi signaler les faits ?",
+      "o": [
+        "Renvoyer les images à toute la classe pour identifier les auteurs par un vote.",
+        "Garder des captures datées sans les diffuser et prévenir avec elle un adulte de confiance ou l’établissement.",
+        "Effacer immédiatement tous les messages et attendre qu’un adulte assiste aux faits.",
+        "Ne prévenir le collège que si un message est envoyé pendant un cours."
+      ],
+      "a": 1,
+      "ex": "Les agissements en ligne peuvent prolonger le harcèlement entre élèves. Un adulte de l’établissement peut aider à déclencher la prise en charge. Le 3018 peut également accompagner les victimes ou témoins. Conserver une preuve et la repartager dans le groupe sont deux actes différents.",
+      "source": "simulation",
+      "sourceUrl": "https://www.education.gouv.fr/non-au-harcelement/je-suis-victime-de-harcelement-468671",
+      "evidenceRef": "D.devoirs",
+      "specificRef": {
+        "title": "Harcèlement à l’école ou en ligne • aide et 3018",
+        "url": "https://www.education.gouv.fr/non-au-harcelement/je-suis-victime-de-harcelement-468671",
+        "summary": "Un élève confronté au harcèlement, même en ligne, peut en parler à un adulte et demander l’aide du 3018."
+      },
+      "preuves": [
+        "HARCELEMENT",
+        "PREUVES",
+        "ENFANT"
+      ],
+      "repereProgramme": {
+        "code": "D.devoirs",
+        "intitule": "Obligations et devoirs des résidents",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/obligations-et-devoirs-des-personnes-residant-en-france/"
+      },
+      "observationsPubliques": [],
+      "jours": [
+        6,
+        9,
+        10
+      ],
+      "questionsLieesV3": [
+        "K114",
+        "K121",
+        "K122"
+      ],
+      "apport": "Ajoute un cas numérique comportant une démarche de signalement et la conservation de preuves.",
+      "piege": "Repérez les deux objectifs : aider la victime et limiter la circulation des images.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M09",
+      "kind": "M",
+      "t": "D",
+      "sub": "D.situation",
+      "titre": "Un courrier concernant le jury",
+      "p": "La mairie informe une personne qu’elle a été tirée au sort pour la liste des jurés. Une hospitalisation prévue constitue un empêchement sérieux. Quelle démarche correspond à ce stade ?",
+      "o": [
+        "Remplacer son nom par celui d’un proche disponible sur le courrier.",
+        "Attendre sans répondre, car le tirage au sort ne crée jamais d’obligation.",
+        "Aviser seulement son employeur, qui peut prononcer la dispense.",
+        "Demander une dispense par écrit à la commission indiquée dans le courrier, en joignant un justificatif."
+      ],
+      "a": 3,
+      "ex": "La demande motivée s’adresse au président de la commission compétente, dans les délais indiqués par la mairie. La commission apprécie le motif. Le justificatif médical accompagne la demande.",
+      "source": "simulation",
+      "sourceUrl": "https://www.service-public.gouv.fr/particuliers/vosdroits/F1044",
+      "evidenceRef": "D.devoirs",
+      "specificRef": {
+        "title": "Demander une dispense comme juré d’assises",
+        "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F1044",
+        "summary": "Au stade du courrier de la mairie, la dispense se demande dans le délai annoncé auprès de la commission, avec des pièces justificatives."
+      },
+      "preuves": [
+        "DISPENSE",
+        "JURE"
+      ],
+      "repereProgramme": {
+        "code": "D.devoirs",
+        "intitule": "Obligations et devoirs des résidents",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/obligations-et-devoirs-des-personnes-residant-en-france/"
+      },
+      "observationsPubliques": [],
+      "jours": [
+        6,
+        10
+      ],
+      "questionsLieesV3": [
+        "K113"
+      ],
+      "apport": "Entraîne à choisir la démarche après notification du tirage au sort, avant le jugement d’une affaire.",
+      "piege": "Pouvoir demander une dispense et l’avoir obtenue sont deux étapes distinctes.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M10",
+      "kind": "M",
+      "t": "D",
+      "sub": "D.situation",
+      "titre": "Poser une limite à son enfant",
+      "p": "Dans une discussion entre parents, l’un affirme qu’une gifle est permise à la maison pour faire respecter une règle. Quelle réponse correspond au droit français ?",
+      "o": [
+        "L’accord des deux parents suffit pour autoriser une gifle éducative.",
+        "La règle dépend uniquement du règlement de l’école de l’enfant.",
+        "Un parent peut fixer des limites, mais l’autorité parentale s’exerce sans violence physique ou psychologique.",
+        "L’interdiction vaut dans les lieux publics et cesse dans le domicile familial."
+      ],
+      "a": 2,
+      "ex": "L’article 371-1 du Code civil encadre l’exercice de l’autorité parentale. Une intention éducative ne justifie pas la gifle. Le lieu privé ne crée pas d’exception.",
+      "source": "simulation",
+      "sourceUrl": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000049164413/2026-10-26",
+      "evidenceRef": "D.devoirs",
+      "specificRef": {
+        "title": "Code civil • article 371-1",
+        "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000049164413/2026-10-26",
+        "summary": "Le Code civil exclut les violences physiques et psychologiques de l’exercice de l’autorité parentale."
+      },
+      "preuves": [
+        "PARENTS",
+        "ENFANT"
+      ],
+      "repereProgramme": {
+        "code": "D.devoirs",
+        "intitule": "Obligations et devoirs des résidents",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/obligations-et-devoirs-des-personnes-residant-en-france/"
+      },
+      "observationsPubliques": [
+        {
+          "id": "CSP-REPORTAGE",
+          "lienAvecExercice": "La candidate CSP évoque une punition physique dans la famille. Le nouveau cas s’appuie sur le Code civil."
+        }
+      ],
+      "jours": [
+        6,
+        9,
+        10
+      ],
+      "questionsLieesV3": [
+        "K121",
+        "K208"
+      ],
+      "apport": "Introduit les limites de l’autorité parentale dans la vie quotidienne.",
+      "piege": "Distinguez le droit de poser une règle et le moyen employé pour la faire respecter.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M11",
+      "kind": "M",
+      "t": "D",
+      "sub": "D.situation",
+      "titre": "Un vol dans une autre ville",
+      "p": "De retour chez elle, une personne veut déposer plainte pour le vol de son sac survenu dans une autre ville. Elle ignore qui l’a volé. Quelle possibilité a-t-elle ?",
+      "o": [
+        "Déposer plainte contre X dans le commissariat ou la gendarmerie de son choix.",
+        "Retourner obligatoirement au commissariat de la commune où le vol a eu lieu.",
+        "Attendre de connaître le nom de l’auteur avant de déposer une plainte.",
+        "Remettre seulement une main courante, car une plainte est réservée aux objets assurés."
+      ],
+      "a": 0,
+      "ex": "Une plainte peut viser un auteur inconnu : on parle de plainte contre X. Il est possible de la déposer sur place auprès du service de police ou de gendarmerie de son choix.",
+      "source": "simulation",
+      "sourceUrl": "https://www.service-public.gouv.fr/particuliers/vosdroits/F1523?lang=fr",
+      "evidenceRef": "D.devoirs",
+      "specificRef": {
+        "title": "Vol • plainte contre X et choix du commissariat",
+        "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F1523?lang=fr",
+        "summary": "La plainte pour vol peut être reçue en police ou en gendarmerie, y compris lorsque l’auteur est inconnu."
+      },
+      "preuves": [
+        "PLAINTE"
+      ],
+      "repereProgramme": {
+        "code": "D.devoirs",
+        "intitule": "Obligations et devoirs des résidents",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/obligations-et-devoirs-des-personnes-residant-en-france/"
+      },
+      "observationsPubliques": [],
+      "jours": [
+        6,
+        10
+      ],
+      "questionsLieesV3": [
+        "K118",
+        "K121",
+        "M032"
+      ],
+      "apport": "Distingue la compétence pour recevoir la plainte de la connaissance de l’auteur.",
+      "piege": "Deux éléments sont indépendants : l’identité de l’auteur et la ville du dépôt.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    },
+    {
+      "id": "RCR-20261127-M12",
+      "kind": "M",
+      "t": "D",
+      "sub": "D.situation",
+      "titre": "Un portrait pour une publicité",
+      "p": "Une passante majeure accepte de poser seule dans la rue pour une photo. Une boutique veut ensuite utiliser son portrait reconnaissable dans une publicité. Que doit faire la boutique ?",
+      "o": [
+        "Se contenter de l’accord donné pour la prise de vue, quel que soit l’usage futur.",
+        "Obtenir son accord écrit et précis pour cette utilisation publicitaire.",
+        "Afficher seulement le nom du photographe à côté du portrait.",
+        "Diffuser directement l’image puisque la rue appartient à l’espace public."
+      ],
+      "a": 1,
+      "ex": "L’accord pour être photographié ne couvre pas automatiquement la diffusion. Pour ce portrait individuel utilisé à des fins publicitaires, l’autorisation doit préciser l’usage prévu.",
+      "source": "simulation",
+      "sourceUrl": "https://www.service-public.gouv.fr/particuliers/vosdroits/F32103",
+      "evidenceRef": "D.droits",
+      "specificRef": {
+        "title": "Droit à l’image et diffusion d’un portrait",
+        "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F32103",
+        "summary": "Le consentement à la prise de vue et l’autorisation de diffuser une image individuelle ont des objets distincts."
+      },
+      "preuves": [
+        "IMAGE"
+      ],
+      "repereProgramme": {
+        "code": "D.droits",
+        "intitule": "Droits fondamentaux",
+        "url": "https://formation-civique.interieur.gouv.fr/fiches-par-thematiques/droits-et-devoirs/droits-fondamentaux/"
+      },
+      "observationsPubliques": [],
+      "jours": [
+        5,
+        6,
+        10
+      ],
+      "questionsLieesV3": [
+        "K103",
+        "K107",
+        "K114"
+      ],
+      "apport": "Introduit le droit à l’image avec un usage commercial et sans enjeu d’information du public.",
+      "piege": "Lisez ce qui a été autorisé : prendre une photo et la publier dans une publicité sont deux actes.",
+      "enonceOfficiel": false,
+      "examenBlanc": false,
+      "usage": "revision_complementaire"
+    }
+  ],
+  "astuces": [
+    {
+      "id": "RCR-20261127-A01",
+      "titre": "Acteur, lieu, fonction",
+      "action": "Avant de répondre à un cas de laïcité, nommez la personne, le lieu et l’activité du moment.",
+      "exemple": "Une étudiante infirmière qui suit un cours et la même étudiante en stage hospitalier public peuvent relever de règles différentes.",
+      "source": "methode_editoriale",
+      "preuves": [
+        "STAGE"
+      ],
+      "observationsPubliques": [
+        "CR-MARS"
+      ],
+      "exercicesAssocies": [
+        "RCR-20261127-M01",
+        "RCR-20261127-M02"
+      ]
+    },
+    {
+      "id": "RCR-20261127-A02",
+      "titre": "Éliminer avec une raison",
+      "action": "Si un mot vous échappe, écartez d’abord les réponses que vous pouvez contredire par une règle précise. Relisez ensuite le verbe décisif dans les deux options restantes.",
+      "exemple": "« Demander » une dispense n’est pas « obtenir » une dispense. Cela suffit pour écarter une réponse qui promet une annulation automatique.",
+      "source": "methode_editoriale",
+      "preuves": [
+        "DISPENSE"
+      ],
+      "observationsPubliques": [
+        "NOV-VOCAB"
+      ],
+      "exercicesAssocies": [
+        "RCR-20261127-M09"
+      ]
+    },
+    {
+      "id": "RCR-20261127-A03",
+      "titre": "Écrire la raison de l’erreur",
+      "action": "Après une erreur, notez le mot qui vous a piégé et la règle en une phrase. Fermez la correction et reformulez la règle de mémoire le lendemain.",
+      "exemple": "« Espèces » = billets et pièces, donc en France 2002. Pour la mise en place de l’euro comme monnaie, cherchez 1999.",
+      "source": "methode_editoriale",
+      "preuves": [
+        "EURO"
+      ],
+      "observationsPubliques": [
+        "NAT-ERREURS"
+      ],
+      "exercicesAssocies": [
+        "RCR-20261127-K04"
+      ]
+    },
+    {
+      "id": "RCR-20261127-A04",
+      "titre": "Une date, un événement, un verbe",
+      "action": "Faites deux colonnes : date et événement précis. Cachez alternativement chaque colonne.",
+      "exemple": "1944 : les Françaises obtiennent le droit de vote. Avril 1945 : elles votent aux municipales. Testez les deux sens.",
+      "source": "methode_editoriale",
+      "preuves": [
+        "VOTEF"
+      ],
+      "observationsPubliques": [
+        "NOV-CHIFFRES",
+        "CR-MARS"
+      ],
+      "exercicesAssocies": [
+        "RCR-20261127-K07",
+        "RCR-20261127-K08"
+      ]
+    },
+    {
+      "id": "RCR-20261127-A05",
+      "titre": "Suivre le verbe institutionnel",
+      "action": "Racontez la décision en deux phrases en changeant de sujet. Cela évite d’attribuer deux décisions au même acteur.",
+      "exemple": "Les électeurs élisent les conseillers municipaux. Ces conseillers élisent le maire parmi eux.",
+      "source": "methode_editoriale",
+      "preuves": [
+        "MAIRE"
+      ],
+      "observationsPubliques": [
+        "CSP-TOULOUSE"
+      ],
+      "exercicesAssocies": [
+        "RCR-20261127-K03",
+        "RCR-20261127-K11"
+      ]
+    },
+    {
+      "id": "RCR-20261127-A06",
+      "titre": "Choisir la bonne première démarche",
+      "action": "Quand la question demande un premier geste, relevez l’urgence, la personne à protéger et le but indiqué.",
+      "exemple": "Pour un bruit sans menace, commencez par le dialogue. Pour des images humiliantes répétées, gardez les preuves et alertez un adulte.",
+      "source": "methode_editoriale",
+      "preuves": [
+        "BRUIT",
+        "HARCELEMENT",
+        "PREUVES"
+      ],
+      "observationsPubliques": [
+        "CSP-TOULOUSE"
+      ],
+      "exercicesAssocies": [
+        "RCR-20261127-M07",
+        "RCR-20261127-M08"
+      ]
+    },
+    {
+      "id": "RCR-20261127-A07",
+      "titre": "Garder un repère de temps",
+      "action": "Sur un examen blanc de 40 questions, essayez d’avoir traité environ 20 questions vers la 22e minute. Adaptez ce repère à votre rythme.",
+      "exemple": "À 45 minutes pour 40 questions, la moyenne est de 67,5 secondes par question. Une date reconnue rapidement laisse plus de temps pour un cas à lire.",
+      "source": "methode_editoriale",
+      "preuves": [
+        "FORMAT"
+      ],
+      "observationsPubliques": [],
+      "exercicesAssocies": [
+        "RCR-20261127-K08",
+        "RCR-20261127-M02"
+      ]
+    },
+    {
+      "id": "RCR-20261127-A08",
+      "titre": "Répéter les situations par deux familles",
+      "action": "En entraînement, travaillez six cas de principes et valeurs puis six cas de droits et devoirs. Pour chacun, expliquez la règle avant de regarder les choix.",
+      "exemple": "L’exercice « promotion » applique l’égalité. L’exercice « vol » demande de connaître une démarche. Le vrai QCM propose une seule bonne réponse.",
+      "source": "methode_editoriale",
+      "preuves": [
+        "QUOTAS",
+        "FORMAT"
+      ],
+      "observationsPubliques": [],
+      "exercicesAssocies": [
+        "RCR-20261127-M06",
+        "RCR-20261127-M11"
+      ]
+    }
+  ],
+  "validationTechnique": {
+    "date": "2026-11-27",
+    "portee": "Exécution locale isolée du moteur JavaScript extrait du fichier index.html référencé. Le registre en mémoire inclut les nouveaux ID. La plateforme publiée ne charge pas ce supplément à cette date.",
+    "contenu": "24 identifiants uniques, 96 choix, une clé de correction par question et aucun énoncé identique à la banque après normalisation. Les renvois de leçons, de sources et de témoignages sont résolus.",
+    "moteur": "Les 24 exercices ont été lancés, corrigés, exportés et repris avec les fonctions de données de la v3. L’ordre des options et le choix ont été conservés.",
+    "examenBlanc": "1 000 tirages du moteur historique avec le réservoir séparé. Tous ont conservé 28 connaissances officielles, 12 situations historiques et les 16 quotas. Aucun exercice du supplément n’a été tiré."
+  }
+}

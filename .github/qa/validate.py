@@ -24,7 +24,7 @@ PAYLOAD_SHA = '700399b41168e7718bfe9f6124c4fe313cd3dbf4d940243fb5a90af9e17d7c08'
 QUOTAS = {'V.symboles':3,'V.laicite':2,'V.situation':6,'I.democratie':3,'I.organisation':2,'I.europe':1,
           'D.droits':2,'D.devoirs':3,'D.situation':6,'H.histoire':3,'H.geographie':3,'H.patrimoine':2,
           'S.residence':1,'S.sante':1,'S.travail':1,'S.education':1}
-VIEWS = ['dashboard', 'lessons', 'bank', 'practice', 'sources', 'saveview']
+VIEWS = ['dashboard', 'lessons', 'bank', 'practice', 'revision', 'sources', 'saveview']
 SUCCESS = []
 errors = []
 
@@ -251,7 +251,7 @@ def routes(pg, data):
             assert pg.locator('#quizbox .opt').count()==4 and active(pg)['revealed']=={'0':True}
         if extra=='scenario': assert all(x['id'].startswith('M') for x in draft['items'])
         discard(pg)
-    good('All six sections, all 12 lesson shortcuts, next-day and practice routes, three dashboard shortcuts, all 14 bank pages, five filters, search, all training modes')
+    good('All seven sections, all 12 lesson shortcuts, next-day and practice routes, three dashboard shortcuts, all 14 bank pages, five filters, search, all training modes')
 
 
 def distributions(pg):
@@ -259,7 +259,10 @@ def distributions(pg):
         const original=startQuiz; const counts=[]; const orders=new Set();
         try {
           startQuiz=(items,label,full)=>{if(!full || new Set(items.map(q=>q.id)).size!==40) throw Error('quota');
-            const bySub={}; for(const q of items) bySub[q.sub]=(bySub[q.sub]||0)+1;
+            const bySub={}; for(const q of items) {
+              if (!C.questions.includes(q) || q.usage === 'revision_complementaire') throw Error('Supplement in mock exam');
+              bySub[q.sub]=(bySub[q.sub]||0)+1;
+            }
             counts.push(bySub); orders.add(items.map(q=>q.id).join('|'));};
           for(let i=0;i<1000;i++) startMock();
         } finally {startQuiz=original;}
@@ -532,6 +535,177 @@ def two_tabs(browser, url):
     good('Two open tabs observe each other’s edits; closing an idle tab preserves newer progress')
 
 
+def revision_checks(browser, url):
+    ctx = browser.new_context(viewport={'width':375,'height':812}, is_mobile=True, has_touch=True)
+    pg = ctx.new_page()
+    setup(pg, url + '#revision')
+    assert pg.locator('.view.active').get_attribute('id') == 'revision'
+    pack = json.loads((ROOT/'revision-2026-11-27.json').read_text())
+    assert len(pack['questions']) == 24 and len(pack['astuces']) == 8
+    assert pg.locator('#revision-index button').count() == 24
+    for i, tip in enumerate(pack['astuces']):
+        card = pg.locator('#revision-tips details').nth(i)
+        card.locator('summary').click()
+        assert tip['action'] in card.inner_text() and tip['exemple'] in card.inner_text()
+        assert card.locator('button').count() == len(tip['exercicesAssocies'])
+        no_overflow(pg, tip['id'])
+    first = pg.locator('#revision-tips button').first
+    first_id = first.get_attribute('data-revision-question')
+    first.click()
+    assert active(pg)['items'][0]['id'] == first_id
+    discard(pg)
+    nav(pg, 'dashboard')
+    pg.get_by_role('button', name='Révision complémentaire', exact=True).click()
+    assert pg.url.endswith('#revision')
+    for kind, label in [('M', 'Commencer les 12 situations'), ('K', 'Commencer les 12 questions')]:
+        pg.get_by_role('button', name=label).click()
+        expected = {q['id'] for q in pack['questions'] if q['kind'] == kind}
+        assert {row['id'] for row in active(pg)['items']} == expected
+        pg.locator('#quizbox .opt').nth(1).click()
+        pg.locator('#quizbox .qfooter .primary').click()
+        before = state(pg)
+        pg.reload(); ready(pg)
+        assert state(pg) == before and pg.locator('#quizbox .opt:visible').count() == 4
+        nav(pg, 'revision')
+        assert pg.locator('#resumeRevision button').first.is_visible()
+        discard(pg)
+        nav(pg, 'practice')
+        pg.get_by_role('button', name='Ouvrir la révision').click()
+    pg.evaluate("""() => {
+      for (const q of revision.questions) {
+        const entry = document.querySelector('#revision-index button[data-revision-question="' + q.id + '"]');
+        entry.click();
+        const box = document.querySelector('#quizbox');
+        if (box.querySelector('.question').textContent !== q.p || box.querySelector('.feedback')) throw Error(q.id);
+        const source = box.querySelector('.sourcebox');
+        if (!source.querySelector('a') || !source.textContent.includes(q.kind === 'M' ? 'reconstituée' : 'Variante')) throw Error(q.id + ' label');
+        for (const ref of q.observationsPubliques) {
+          const report = revisionObservations.get(ref.id);
+          if (![...source.querySelectorAll('a')].some(a => a.href === revision.sources[report.sourceId].url)) throw Error(q.id + ' origin');
+        }
+        const right = [...box.querySelectorAll('.opt .answer')].findIndex(a => a.textContent === q.o[q.a]);
+        if (right < 0 || box.querySelectorAll('.opt').length !== 4) throw Error(q.id + ' choices');
+        box.querySelectorAll('.opt')[(right + 1) % 4].click();
+        if (!box.querySelector('.feedback.bad')) throw Error(q.id + ' wrong');
+        box.querySelectorAll('.opt')[right].click();
+        if (box.querySelector('.feedback.bad') || !box.querySelector('.feedback').textContent.includes(q.ex)) throw Error(q.id + ' scoring');
+        const evidence = box.querySelector('.evidence');
+        const hrefs = new Set([...evidence.querySelectorAll('a')].map(a => a.href));
+        if (!evidence.textContent.includes(q.piege) || !hrefs.has(q.repereProgramme.url) ||
+            !q.preuves.every(id => hrefs.has(revision.sources[id].url))) throw Error(q.id + ' sources');
+        box.querySelector('.qfooter .primary').click();
+        if (document.querySelector('#resultbox h1').textContent !== '1/1') throw Error(q.id + ' result');
+        document.querySelector('#resultbox button[onclick*="revision"]').click();
+      }
+    }""")
+    # Keep one wrong answer and exercise the ordinary history, backup and missed modes.
+    pg.locator('#revision-index').evaluate("el => el.parentElement.open = true")
+    pg.locator('#revision-index button').first.click()
+    question = pg.evaluate('quiz.items[0].id')
+    wrong = pg.evaluate('quiz.items[0].options.findIndex(o => !o.correct)')
+    pg.locator('#quizbox .opt').nth(wrong).click()
+    btn(pg, '#quizbox .qfooter .primary')
+    assert pg.locator('#resultbox h1').inner_text() == '0/1'
+    expected = state(pg)
+    assert question in expected['missed'] and expected['history'][0]['review'][0]['id'] == question
+    nav(pg, 'saveview')
+    with pg.expect_download() as download:
+        btn(pg, '#saveview button[onclick="exportProgress()"]')
+    pg.locator('#backupFile').set_input_files(download.value.path())
+    pg.get_by_text('Sauvegarde restaurée.', exact=False).wait_for()
+    assert state(pg) == expected
+    nav(pg, 'practice')
+    pg.locator('#history button').first.click()
+    assert pg.locator('#resultbox details .evidence a').first.is_visible()
+    btn(pg, '#resultbox .actions button:last-child')
+    btn(pg, '#modes button[onclick="reviewMissed()"]')
+    assert active(pg)['items'][0]['id'] == question
+    ctx.close()
+    good('All 24 supplementary answer keys, dated attributions, programme and evidence links, eight tips, both 12-item series, resume, missed review, history and JSON backup')
+
+    # A network failure reading the catalogue must never discard stored progress.
+    ctx = browser.new_context(service_workers='block')
+    pg = ctx.new_page()
+    pg.add_init_script("""if (!localStorage.getItem('civicCROfficialFirst2026'))
+      localStorage.setItem('civicCROfficialFirst2026', JSON.stringify({done:[2],history:[],missed:['RCR-20261127-M02']}));""")
+    pattern = '**/revision-2026-11-27.json'
+    pg.route(pattern, lambda route: route.abort())
+    pg.goto(url)
+    pg.locator('#startup-error button').wait_for()
+    assert pg.evaluate("JSON.parse(localStorage.getItem('civicCROfficialFirst2026'))") == {
+        'done':[2], 'history':[], 'missed':['RCR-20261127-M02']}
+    pg.unroute(pattern)
+    pg.get_by_role('button',name='Réessayer').click()
+    ready(pg)
+    assert state(pg)['done'] == [2] and state(pg)['missed'] == ['RCR-20261127-M02']
+    ctx.close()
+    good('Interrupted catalogue download preserves progress and the retry button recovers it')
+
+
+def upgrade_from_v3(browser, folder, url, disconnect):
+    # The workflow checks out the last production release beside the current tree.
+    before_release = ROOT/'.prior-v3'
+    assert (before_release/'index.html').is_file(), 'The v3 compatibility fixture is missing'
+    current = {p.name for p in folder.iterdir() if p.is_file()}
+    previous = {p.name for p in before_release.iterdir() if p.is_file() and not p.name.startswith('.')}
+    for name in current - previous:
+        (folder/name).unlink()
+    for name in previous:
+        shutil.copyfile(before_release/name, folder/name)
+    ctx = browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
+    try:
+        pg = ctx.new_page()
+        setup(pg,url); warm(pg)
+        assert pg.locator('[data-nav="revision"]').count() == 0
+        pg.locator('#daylist input').nth(2).check()
+        nav(pg,'bank')
+        pg.locator('#bankList button').first.click()
+        btn(pg,'#quizbox .qfooter .primary')
+        nav(pg,'practice')
+        btn(pg,'#modes button[onclick="startMock()"]')
+        pg.locator('#quizbox .opt').nth(2).click()
+        btn(pg,'#quizbox .qfooter .primary')
+        original = state(pg)
+        assert original['done'] == [2] and original['history'] and original['missed']
+        assert original['active']['index'] == 1 and len(original['active']['items']) == 40
+        for name in current:
+            shutil.copyfile(ROOT/name,folder/name)
+        pg.evaluate("async () => (await navigator.serviceWorker.ready).update().then(() => true)")
+        poll(pg, "async () => Boolean((await navigator.serviceWorker.getRegistration()).waiting)", timeout=25000)
+        assert state(pg) == original and pg.locator('#revision').count() == 0
+        observer = ctx.new_page()
+        observer.goto(url+'../qa-observer.html')
+        pg.close()
+        poll(observer, """async () => {
+          const r=await navigator.serviceWorker.getRegistration('/examen-civique-cr/');
+          const names=(await caches.keys()).filter(n=>n.startsWith('examen-civique-cr:'));
+          return r?.active?.state === 'activated' && !r.waiting && !r.installing && names.length===1 && names[0].endsWith('2026-11-27.1');
+        }""", timeout=25000)
+        pg = ctx.new_page()
+        setup(pg,url); warm(pg)
+        assert state(pg) == original and pg.locator('#quizbox .question').is_visible()
+        with disconnect(ctx):
+            nav(pg,'revision')
+            assert pg.locator('#resumeRevision button').first.is_visible() and state(pg) == original
+            pdf_header = pg.evaluate("""async () => {
+              const response=await fetch(document.querySelector('#revision a[download]').href);
+              return [response.ok,response.headers.get('Content-Type'),await (await response.blob()).slice(0,5).text()];
+            }""")
+            assert pdf_header == [True,'application/pdf','%PDF-'], pdf_header
+            pg.get_by_role('button',name='Commencer les 12 situations').click()
+            pg.locator('#quizbox .opt').first.click()
+            new_state=state(pg)
+            pg.reload();ready(pg)
+            assert state(pg) == new_state and pg.locator('#quizbox .feedback .evidence').is_visible()
+            nav(pg,'revision')
+            assert pg.locator('#revision-tips details').count() == 8
+        good('Upgrade from the actual published v3 with a live 40-question exam, original selection, lesson, missed item and history intact, followed by offline revision, PDF and restart')
+    finally:
+        ctx.close()
+        for name in current:
+            shutil.copyfile(ROOT/name,folder/name)
+
+
 def main():
     with tempfile.TemporaryDirectory() as directory, sync_playwright() as pw:
         temp=Path(directory)
@@ -555,6 +729,8 @@ def main():
             layout(browser,url)
             fallback_checks(browser,url)
             two_tabs(browser,url)
+            revision_checks(browser,url)
+            upgrade_from_v3(browser,folder,url,disconnect)
             browser.close()
             persistence(engine,temp,folder,url,disconnect)
             assert not errors,str(errors[:5])
